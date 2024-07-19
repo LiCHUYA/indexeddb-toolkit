@@ -1,4 +1,4 @@
-import DummyClass from "../src/better-indexdb"
+import DummyClass from "../src/indexdb-helper"
 
 /**
  * Dummy test
