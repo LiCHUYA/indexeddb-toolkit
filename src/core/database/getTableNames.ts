@@ -1,5 +1,5 @@
 import ResponseMessages from "../../constant";
-import { useDatabase } from "../useDatabase";
+import  useDatabase  from "../useDatabase";
 
 // 定义 useDatabase 函数的返回值类型
 interface Database {

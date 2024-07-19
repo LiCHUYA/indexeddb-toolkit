@@ -7,7 +7,7 @@ import { getIndexedDBVersion } from '../helper/index'
  * @param dbName 数据库名称
  * @returns Promise对象，包含当前数据库实例
  */
-export function useDatabase(dbName: string) {
+function useDatabase(dbName: string) {
   if (!dbName) {
    return ResponseMessages.DBNAME_IS_NULL()
   }
@@ -43,3 +43,4 @@ export function useDatabase(dbName: string) {
     }
   })
 }
+export default useDatabase
