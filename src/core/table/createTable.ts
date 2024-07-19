@@ -88,7 +88,6 @@ async function isTableExist(dbName: string, tableName: string): Promise<boolean>
     const database: any = await useDatabase(dbName);
     return database.result.objectStoreNames.contains(tableName);
   } catch (error) {
-    console.error(error);
     return false;
   }
 }
