@@ -1,6 +1,7 @@
 import ResponseMessages from "../../constant";
 import useDatabase from "../useDatabase";
-import { closeCurrentConnection, getIndexedDBVersion } from "../../helper/index";
+import {closeCurrentConnection, getIndexedDBVersion} from "../../helper/index";
+import {isTableExist} from "../../helper";
 
 /**
  * 创建表
@@ -23,14 +24,15 @@ async function createTable(dbName: string, tableName: string, indexs: any[] = ['
   try {
     // 判断表是否存在
     const tableExist = await isTableExist(dbName, tableName);
+    console.log(tableExist)
     if (tableExist) {
       const message = `${tableName} 表已存在`;
-      console.log(ResponseMessages.TB_EXIST({ info: message }));
-      return ResponseMessages.TB_EXIST({ info: message });
+      console.log(ResponseMessages.TB_EXIST({info: message}));
+      return ResponseMessages.TB_EXIST({info: message});
     }
 
     // 关闭之前的连接
-    await closeCurrentConnection(dbName);
+    // await closeCurrentConnection(dbName);
 
     // 获取新的数据库版本号
     const currentVersion = await getIndexedDBVersion(dbName);
@@ -48,11 +50,11 @@ async function createTable(dbName: string, tableName: string, indexs: any[] = ['
       request.onupgradeneeded = (event: any) => {
         try {
           const db = event.target.result;
-          const store = db.createObjectStore(tableName, { keyPath: "id" });
+          const store = db.createObjectStore(tableName, {keyPath: "id"});
 
           if (indexs && indexs.length) {
             indexs.forEach((index: string) => {
-              store.createIndex(index, index, { unique: false });
+              store.createIndex(index, index, {unique: false});
             });
           }
 
@@ -77,19 +79,5 @@ async function createTable(dbName: string, tableName: string, indexs: any[] = ['
   }
 }
 
-/**
- * 判断表是否存在
- * @param dbName 数据库名称
- * @param tableName 表名称
- * @returns 表是否存在的布尔值
- */
-async function isTableExist(dbName: string, tableName: string): Promise<boolean> {
-  try {
-    const database: any = await useDatabase(dbName);
-    return database.result.objectStoreNames.contains(tableName);
-  } catch (error) {
-    return false;
-  }
-}
 
 export default createTable;

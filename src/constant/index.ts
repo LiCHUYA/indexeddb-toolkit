@@ -8,6 +8,7 @@ const ResponseMessages = {
   DEL_DB_SUCCESS: (info) => returnFormater(200, '删除数据库成功', info),
   DEL_ALL_DB_SUCCESS: () => returnFormater(200, '删除所有数据库成功'),
   TB_CREATE_SUCCESS: () => returnFormater(200, '表创建成功'),
+  TB_INSERT_SUCCESS: (event) => returnFormater(200, '数据插入成功', event),
   // 失败
   BASIC_ERROR: (error: Response) => returnFormater(400, 'error', error),
   DBNAME_IS_NULL: () => returnFormater(401, `数据库名称不能为空`),
@@ -17,8 +18,10 @@ const ResponseMessages = {
   TB_EXIST: (info) => returnFormater(406, '该表已存在', info),
   TB_CREATE_ERROR: (error: Response) => returnFormater(407, '表创建失败', error),
   DEL_DB_ERROR: (error: Response) => returnFormater(408, '删除数据库失败', error),
-  DEL_ALL_DB_ERROR: () => returnFormater(409, '删除所有数据库失败'),
-  DB_NOTFOUNT: () => returnFormater(410, '找不到数据库')
+  DEL_ALL_DB_ERROR: (error: Response) => returnFormater(409, '删除所有数据库失败', error),
+  DB_NOTFOUNT: () => returnFormater(410, '找不到数据库'),
+  TB_NOTFOUND: () => returnFormater(411, '找不到表'),
+  TB_INSERT_ERROR: (error: Response) => returnFormater(412, '数据插入失败', error)
 }
 
 export default ResponseMessages

@@ -5,7 +5,7 @@ import deleteAllDatabases from "./database/deleteAllDatabases";
 
 
 import createTable from "./table/createTable";
-
+import insertOne from "./table/insertOne";
 
 export {
   // 使用数据库
@@ -16,5 +16,6 @@ export {
   deleteDatabase,
   deleteAllDatabases,
   // 创建表
-  createTable
+  createTable,
+  insertOne
 }

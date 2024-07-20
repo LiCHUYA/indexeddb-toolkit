@@ -1,6 +1,6 @@
 import ResponseMessages from '../constant/index'
 
-import { getIndexedDBVersion } from '../helper/index'
+import {getIndexedDBVersion} from '../helper/index'
 
 /**
  * 使用指定的数据库
@@ -9,13 +9,13 @@ import { getIndexedDBVersion } from '../helper/index'
  */
 function useDatabase(dbName: string) {
   if (!dbName) {
-   return ResponseMessages.DBNAME_IS_NULL()
+    return ResponseMessages.DBNAME_IS_NULL()
   }
   const request = window.indexedDB.open(dbName)
 
   return new Promise((resolve, reject) => {
     request.onsuccess = (event: any) => {
-      resolve(ResponseMessages.OPEN_DB_SUCCESS(event.target.result))
+      resolve(ResponseMessages.OPEN_DB_SUCCESS(event))
     }
     request.onerror = async (event: any) => {
       try {
@@ -24,7 +24,7 @@ function useDatabase(dbName: string) {
           const version = await getIndexedDBVersion(dbName)
           const request = window.indexedDB.open(dbName, version)
           request.onsuccess = (event: any) => {
-            resolve(ResponseMessages.OPEN_DB_SUCCESS(event.target.result))
+            resolve(ResponseMessages.OPEN_DB_SUCCESS(event))
           }
         } else {
           resolve(ResponseMessages.OPEN_DB_ERROR(event.target.error))
@@ -36,11 +36,12 @@ function useDatabase(dbName: string) {
 
     request.onupgradeneeded = (event: any) => {
       try {
-        resolve(ResponseMessages.OPEN_DB_SUCCESS(event.target.result))
+        resolve(ResponseMessages.OPEN_DB_SUCCESS(event))
       } catch (error) {
         reject(ResponseMessages.BASIC_ERROR(event.target.error))
       }
     }
   })
 }
+
 export default useDatabase
