@@ -14,7 +14,7 @@ import deleteOneByPk from './table/deleteOneByPk'
 import deleteOneByIndex from './table/deleteOneByIndex'
 import deleteAllTables from './database/deleteAllTables'
 import deleteTable from './database/deleteTable'
-import deleteManyByKeys from './table/deleteManyByKeys'
+import deleteManyByPK from './table/deleteManyByPK'
 import deleteManyByIndex from './table/deleteManyByIndex'
 
 export {
@@ -37,6 +37,6 @@ export {
   deleteOneByIndex,
   deleteAllTables,
   deleteTable,
-  deleteManyByKeys,
+  deleteManyByPK,
   deleteManyByIndex
 }

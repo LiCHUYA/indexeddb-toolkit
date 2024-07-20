@@ -7,37 +7,43 @@ import json from 'rollup-plugin-json'
 
 const pkg = require('./package.json')
 
-const libraryName = 'indexeddb-helper'
+const libraryName = 'indexeddb-toolkit'
 
 export default {
   input: `src/${libraryName}.ts`,
   output: [
     {
       file: pkg.main,
-      name: 'camelCase(libraryName)',
+      name: 'libraryName',
       format: 'umd',
-      sourcemap: true
+      sourcemap: false
     },
     {
       file: pkg.module,
       format: 'es',
-      sourcemap: true
+      sourcemap: false
     },
     {
-      file: 'dist/library.cjs.js',
+      file: pkg.module,
+      format: 'esm',
+      sourcemap: false
+    },
+    {
+      name: 'libraryName',
+      file: 'dist/libraryName.cjs.js',
       format: 'cjs',
-      sourcemap: true
+      sourcemap: false
     },
     {
       file: 'dist/library.amd.js',
       format: 'amd',
-      sourcemap: true
+      sourcemap: false
     },
     {
       file: 'dist/library.iife.js',
       format: 'iife',
       name: 'Library',
-      sourcemap: true
+      sourcemap: false
     }
   ],
   // Indicate here external modules you don't wanna include in your bundle (i.e.: 'lodash')

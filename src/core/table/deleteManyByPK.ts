@@ -9,7 +9,7 @@ import { useDatabase } from '../index'
  * @param keys 主键值数组
  * @returns Promise对象，包含删除结果的状态和消息
  */
-async function deleteManyByKeys(dbName: string, tableName: string, keys: any[]): Promise<any> {
+async function deleteManyByPK(dbName: string, tableName: string, keys: any[]): Promise<any> {
   if (!dbName) {
     return ResponseMessages.DBNAME_IS_NULL()
   }
@@ -54,4 +54,4 @@ async function deleteManyByKeys(dbName: string, tableName: string, keys: any[]):
   }
 }
 
-export default deleteManyByKeys
+export default deleteManyByPK

@@ -1,4 +1,4 @@
-import DummyClass from '../src/indexeddb-helper'
+import DummyClass from '../src/indexeddb-toolkit'
 
 /**
  * Dummy test
