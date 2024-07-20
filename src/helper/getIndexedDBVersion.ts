@@ -24,4 +24,3 @@ function getIndexedDBVersion(databaseName: string): Promise<number> {
 }
 
 export default getIndexedDBVersion
-

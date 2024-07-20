@@ -1,6 +1,6 @@
-import ResponseMessages from "../../constant";
-import {isTableExist} from "../../helper";
-import {useDatabase} from "../index";
+import ResponseMessages from '../../constant'
+import { isTableExist } from '../../helper'
+import { useDatabase } from '../index'
 
 /**
  * 根据索引查询数据
@@ -33,53 +33,51 @@ async function findByIndex(
     return ResponseMessages.TB_SELECT_INDEX_VALUE_IS_NULL()
   }
   try {
-    const tableExist = await isTableExist(dbName, tableName);
+    const tableExist = await isTableExist(dbName, tableName)
     if (!tableExist) {
       // console.log(`${tableName} 表不存在`);
       return ResponseMessages.TB_EXIST(`${tableName} 表不存在`)
     }
-    const database: any = await useDatabase(dbName);
+    const database: any = await useDatabase(dbName)
     let currentDb = database.result.target.result
     return new Promise<any>((resolve, reject) => {
-      const store = currentDb
-        .transaction(tableName, "readonly")
-        .objectStore(tableName);
+      const store = currentDb.transaction(tableName, 'readonly').objectStore(tableName)
 
-      if (!Array.from(store.indexNames).includes(indexName)) reject(ResponseMessages.TB_INDEX_ERROR())
+      if (!Array.from(store.indexNames).includes(indexName))
+        reject(ResponseMessages.TB_INDEX_ERROR())
       // console.log(!Array.from(store.indexNames).includes(indexName))
-      const index = store.index(indexName);
+      const index = store.index(indexName)
 
       if (isAll) {
-        const request = index.openCursor(IDBKeyRange.only(indexValue));
-        const results: any[] = [];
+        const request = index.openCursor(IDBKeyRange.only(indexValue))
+        const results: any[] = []
 
         request.onsuccess = (event: any) => {
-          const cursor = event.target.result;
+          const cursor = event.target.result
           if (cursor) {
-            results.push(cursor.value);
-            cursor.continue();
+            results.push(cursor.value)
+            cursor.continue()
           } else {
-            resolve(ResponseMessages.TB_SELECT_BY_INDEX_SUCCESS(results));
+            resolve(ResponseMessages.TB_SELECT_BY_INDEX_SUCCESS(results))
           }
-        };
+        }
 
         request.onerror = (event: any) => {
-          reject(ResponseMessages.TB_SELECT_BY_INDEX_ERROR(event));
-        };
+          reject(ResponseMessages.TB_SELECT_BY_INDEX_ERROR(event))
+        }
       } else {
-        const request = index.get(indexValue);
+        const request = index.get(indexValue)
         request.onsuccess = (event: any) => {
           console.log(event)
-          const result = event.target.result;
-          resolve(ResponseMessages.TB_SELECT_BY_INDEX_SUCCESS(result));
-        };
+          const result = event.target.result
+          resolve(ResponseMessages.TB_SELECT_BY_INDEX_SUCCESS(result))
+        }
 
         request.onerror = (event: any) => {
-          reject(ResponseMessages.TB_SELECT_BY_INDEX_ERROR(event));
-        };
+          reject(ResponseMessages.TB_SELECT_BY_INDEX_ERROR(event))
+        }
       }
-
-    });
+    })
   } catch (error) {
     return ResponseMessages.BASIC_ERROR(error)
   }

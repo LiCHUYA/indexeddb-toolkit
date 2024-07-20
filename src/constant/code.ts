@@ -3,6 +3,4 @@ enum ConsoleType {
   Warn = 1,
   Error = 2
 }
-export {
-  ConsoleType
-}
+export { ConsoleType }

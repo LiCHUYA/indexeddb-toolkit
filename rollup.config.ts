@@ -7,18 +7,43 @@ import json from 'rollup-plugin-json'
 
 const pkg = require('./package.json')
 
-const libraryName = 'better-indexdb'
+const libraryName = 'indexeddb-helper'
 
 export default {
   input: `src/${libraryName}.ts`,
   output: [
-    { file: pkg.main, name: camelCase(libraryName), format: 'umd', sourcemap: true },
-    { file: pkg.module, format: 'es', sourcemap: true },
+    {
+      file: pkg.main,
+      name: 'camelCase(libraryName)',
+      format: 'umd',
+      sourcemap: true
+    },
+    {
+      file: pkg.module,
+      format: 'es',
+      sourcemap: true
+    },
+    {
+      file: 'dist/library.cjs.js',
+      format: 'cjs',
+      sourcemap: true
+    },
+    {
+      file: 'dist/library.amd.js',
+      format: 'amd',
+      sourcemap: true
+    },
+    {
+      file: 'dist/library.iife.js',
+      format: 'iife',
+      name: 'Library',
+      sourcemap: true
+    }
   ],
   // Indicate here external modules you don't wanna include in your bundle (i.e.: 'lodash')
   external: [],
   watch: {
-    include: 'src/**',
+    include: 'src/**'
   },
   plugins: [
     // Allow json resolution
@@ -33,6 +58,6 @@ export default {
     resolve(),
 
     // Resolve source maps to the original source
-    sourceMaps(),
-  ],
+    sourceMaps()
+  ]
 }

@@ -1,6 +1,6 @@
-import ResponseMessages from "../../constant";
-import {isTableExist} from "../../helper";
-import {useDatabase} from "../index";
+import ResponseMessages from '../../constant'
+import { isTableExist } from '../../helper'
+import { useDatabase } from '../index'
 
 /**
  * 根据主键删除单条数据
@@ -16,27 +16,25 @@ async function deleteOneByPk(dbName: string, tableName: string, id: number) {
   if (!tableName) {
     return ResponseMessages.TBNAME_IS_NULL()
   }
-  const tableExist = await isTableExist(dbName, tableName);
+  const tableExist = await isTableExist(dbName, tableName)
   if (!tableExist) {
     // console.log(`${tableName} 表不存在`);
     return ResponseMessages.TB_EXIST(`${tableName} 表不存在`)
   }
-  const database: any = await useDatabase(dbName);
+  const database: any = await useDatabase(dbName)
   let currentDb = database.result.target.result
 
   return new Promise<any>((resolve, reject) => {
-    const store = currentDb
-      .transaction([tableName], "readwrite")
-      .objectStore(tableName);
+    const store = currentDb.transaction([tableName], 'readwrite').objectStore(tableName)
 
-    const request = store.delete(id);
+    const request = store.delete(id)
     request.onsuccess = (event: any) => {
-      resolve(ResponseMessages.TB_DELETE_BY_PK_SUCCESS(event));
-    };
+      resolve(ResponseMessages.TB_DELETE_BY_PK_SUCCESS(event))
+    }
     request.onerror = (event: any) => {
-      reject(ResponseMessages.TB_DELETE_BY_PK_ERROR(event));
-    };
-  });
+      reject(ResponseMessages.TB_DELETE_BY_PK_ERROR(event))
+    }
+  })
 }
 
 export default deleteOneByPk

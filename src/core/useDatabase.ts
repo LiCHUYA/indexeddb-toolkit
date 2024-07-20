@@ -1,22 +1,33 @@
 import ResponseMessages from '../constant/index'
-
-import {getIndexedDBVersion} from '../helper/index'
+import { getIndexedDBVersion } from '../helper/index'
 
 /**
  * 使用指定的数据库
- * @param dbName 数据库名称
- * @returns Promise对象，包含当前数据库实例
+ *
+ * @param {string} dbName - 数据库名称
+ * @returns {Promise<any>} Promise对象，包含当前数据库实例或错误信息
+ *
+ * @example
+ * useDatabase('myDatabase')
+ *   .then(response => {
+ *     console.log('Database opened successfully', response);
+ *   })
+ *   .catch(error => {
+ *     console.error('Error opening database', error);
+ *   });
  */
-function useDatabase(dbName: string) {
+function useDatabase(dbName: string): any {
   if (!dbName) {
     return ResponseMessages.DBNAME_IS_NULL()
   }
+
   const request = window.indexedDB.open(dbName)
 
   return new Promise((resolve, reject) => {
     request.onsuccess = (event: any) => {
       resolve(ResponseMessages.OPEN_DB_SUCCESS(event))
     }
+
     request.onerror = async (event: any) => {
       try {
         const message = event.target.error.name

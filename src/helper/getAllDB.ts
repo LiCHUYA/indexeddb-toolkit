@@ -1,4 +1,4 @@
-import ResponseMessages from "../constant";
+import ResponseMessages from '../constant'
 
 /**
  * 获取所有数据库实例
@@ -6,16 +6,15 @@ import ResponseMessages from "../constant";
  */
 async function getAllDB(): Promise<any> {
   try {
-    const res = await indexedDB.databases();
+    const res = await (indexedDB as any).databases()
     if (Array.isArray(res)) {
-      return ResponseMessages.GET_ALL_DBS_SUCCESS(res);
+      return ResponseMessages.GET_ALL_DBS_SUCCESS(res)
     } else {
-      return ResponseMessages.DB_NOTFOUNT();
+      return ResponseMessages.DB_NOTFOUNT()
     }
   } catch (error) {
-    return ResponseMessages.BASIC_ERROR(error);
+    return ResponseMessages.BASIC_ERROR(error)
   }
 }
 
 export default getAllDB
-

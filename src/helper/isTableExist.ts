@@ -1,4 +1,4 @@
-import {useDatabase} from "../core";
+import { useDatabase } from '../core'
 
 /**
  * 判断表是否存在
@@ -8,11 +8,11 @@ import {useDatabase} from "../core";
  */
 async function isTableExist(dbName: string, tableName: string): Promise<boolean> {
   try {
-    const database: any = await useDatabase(dbName);
+    const database: any = await useDatabase(dbName)
     // console.log(database)
-    return database.result.target.result.objectStoreNames.contains(tableName);
+    return database.result.target.result.objectStoreNames.contains(tableName)
   } catch (error) {
-    return false;
+    return false
   }
 }
 

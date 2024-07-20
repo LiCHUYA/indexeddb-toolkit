@@ -1,11 +1,11 @@
 {
-  "name": "indexdb-helper",
+  "name": "indexeddb-helper",
   "version": "0.0.0",
   "description": "",
   "keywords": [],
-  "main": "dist/better-indexdb.umd.js",
-  "module": "dist/better-indexdb.es5.js",
-  "typings": "dist/types/better-indexdb.d.ts",
+  "main": "dist/indexeddb-helper.umd.js",
+  "module": "dist/indexeddb-helper.es5.js",
+  "typings": "dist/types/indexeddb-helper.d.ts",
   "files": [
     "dist"
   ],
@@ -21,7 +21,7 @@
   "scripts": {
     "lint": "tslint  --project tsconfig.json -t codeFrame 'src/**/*.ts' 'test/**/*.ts'",
     "prebuild": "rimraf dist",
-    "build": "tsc --module commonjs && rollup -c rollup.config.ts && typedoc --out docs --target es6 --theme minimal --mode file src",
+    "build": "tsc --module commonjs && rollup -c rollup.config.ts",
     "start": "rollup -c rollup.config.ts -w",
     "test": "jest --coverage",
     "test:watch": "jest --coverage --watch",
@@ -32,7 +32,8 @@
     "semantic-release": "semantic-release",
     "semantic-release-prepare": "ts-node tools/semantic-release-prepare",
     "precommit": "lint-staged",
-    "travis-deploy-once": "travis-deploy-once"
+    "travis-deploy-once": "travis-deploy-once",
+    "doc": "typedoc --options typedoc.json"
   },
   "lint-staged": {
     "{src,test}/**/*.ts": [
@@ -42,7 +43,7 @@
   },
   "config": {
     "commitizen": {
-      "path": "node_modules/cz-customizable"
+      "path": "node_modules/cz-conventional-changelog"
     }
   },
   "jest": {
@@ -114,10 +115,10 @@
     "tslint": "^5.11.0",
     "tslint-config-prettier": "^1.15.0",
     "tslint-config-standard": "^8.0.1",
-    "typedoc": "^0.12.0",
-    "typescript": "^3.0.3"
+    "typedoc": "^0.26.4",
+    "typescript": "^5.5.3"
   },
   "dependencies": {
-    "cz-customizable": "6.3"
+    "@types/lodash": "^4.14.74"
   }
 }

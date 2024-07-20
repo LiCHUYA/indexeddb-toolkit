@@ -1,13 +1,8 @@
-function returnFormatter(
-  code: number,
-  message: string,
-  result: any = {},
-) {
-  return {code, message, result}
+function returnFormatter(code: number, message: string, result: any = {}) {
+  return { code, message, result }
 }
 
-export default returnFormatter;
-
+export default returnFormatter
 
 // import { ConsoleType } from '../constant/code';
 //

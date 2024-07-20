@@ -1,4 +1,4 @@
-import ResponseMessages from "../../constant";
+import ResponseMessages from '../../constant'
 
 /**
  * 删除指定表
@@ -8,37 +8,37 @@ import ResponseMessages from "../../constant";
  */
 function deleteTable(dbName: string, tableName: string): Promise<any> {
   return new Promise<any>((resolve, reject) => {
-    const request = window.indexedDB.open(dbName);
+    const request = window.indexedDB.open(dbName)
 
     request.onsuccess = (event: any) => {
-      const db = event.target.result;
-      const version = db.version + 1;
+      const db = event.target.result
+      const version = db.version + 1
 
-      db.close();
+      db.close()
 
-      const deleteRequest = window.indexedDB.open(dbName, version);
+      const deleteRequest = window.indexedDB.open(dbName, version)
 
       deleteRequest.onupgradeneeded = (event: any) => {
-        const upgradeDb = event.target.result;
+        const upgradeDb = event.target.result
         if (upgradeDb.objectStoreNames.contains(tableName)) {
-          upgradeDb.deleteObjectStore(tableName);
+          upgradeDb.deleteObjectStore(tableName)
         }
-      };
+      }
 
       deleteRequest.onsuccess = (event: any) => {
-        event.target.result.close();
+        event.target.result.close()
         resolve(ResponseMessages.TB_DELETE_SUCCESS(`${tableName} 表删除成功`))
-      };
+      }
 
       deleteRequest.onerror = (event: any) => {
-        reject(ResponseMessages.TB_DELETE_ERROR(event));
-      };
-    };
+        reject(ResponseMessages.TB_DELETE_ERROR(event))
+      }
+    }
 
     request.onerror = (error: any) => {
-      reject(ResponseMessages.BASIC_ERROR(error));
-    };
-  });
+      reject(ResponseMessages.BASIC_ERROR(error))
+    }
+  })
 }
 
 export default deleteTable
