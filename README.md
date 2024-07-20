@@ -1,12 +1,15 @@
-
 # **indexeddb-toolkit**
 
-- **indexeddb-toolkit**是一个用于浏览器的轻量级数据库操作库，使用 ts+promise 提供了对 IndexedDB 的封装和便捷的 API，用于简化数据库的创建、表的管理和数据的增删改查操作。它提供了一系列的方法来操作数据库和表，包括创建、删除、查询和更新数据等功能,来减少开发者的成本,API命名与主流数据库orm类似,
+- **indexeddb-toolkit**是一个用于浏览器的轻量级数据库操作库，使用 ts+promise 提供了对 IndexedDB
+  的封装和便捷的
+  API，用于简化数据库的创建、表的管理和数据的增删改查操作。它提供了一系列的方法来操作数据库和表，包括创建、删除、查询和更新数据等功能,来减少开发者的成本,API命名与主流数据库orm类似,
 
 ## 安装
 
 ``` js
 npm i indexeddb-toolkit
+或
+pnpm i indexeddb-toolkit
 ```
 
 ## 使用方式
@@ -14,14 +17,15 @@ npm i indexeddb-toolkit
 方式一
 
 ```javascript
-import {useDatabase} from 'indexeddb-toolkit'
+import { useDatabase } from 'indexeddb-toolkit'
 ```
 
 方式二
 
 ```js
 import indexeddbToolkit from 'indexeddb-toolkit'
-const {useDatabase} = indexeddbToolkit
+
+const { useDatabase } = indexeddbToolkit
 ```
 
 方式三
@@ -32,8 +36,6 @@ const {useDatabase} = indexeddbToolkit
   console.log(indexeddbToolkit)
 </script>
 ```
-
-
 
 ## **<span style="color:red">使用前必看!</span>**
 
@@ -50,13 +52,13 @@ const {useDatabase} = indexeddbToolkit
 >
 > 创建数据库**useDatabase**, 查询数据**findDBData**, 创建表**createTable**
 >
-> 
+>
 >
 > 1.useDatabase(dbName: string)
 >
 > 该方法可以不用考虑繁杂琐碎的原生API, 只需要传入一个名字便,无感创建/使用数据库,极大减小心智负担。
 >
-> 
+>
 >
 > 2.`createTable(dbName: string, tableName: string, indexs: any[])`
 >
@@ -78,15 +80,13 @@ const {useDatabase} = indexeddbToolkit
 > 
 > ```
 >
-> 
+>
 >
 > 3.`findDBData(dbName: string, tableName?: string)`
 >
-> ​	该方法用于查询数据库和表格数据,可以传入两个参数,一个是dbName,一个是tbName,
+>  该方法用于查询数据库中表格的数据,可以传入两个参数,一个是dbName,一个是tbName,
 >
 > 当只传入dbName的时候,查询 该数据库下所有表,以及所有数据,呈树状结构
-
-
 
 ## 数据库的操作方法
 
@@ -104,7 +104,7 @@ const {useDatabase} = indexeddbToolkit
 
 ```javascript
 //使用示例
-(async function () {
+(async function() {
   let res = await useDatabase("数据库名称");
 })();
 
@@ -131,7 +131,7 @@ useDatabase('dbName').then()
 - 参数：
   - `dbName` - 数据库名称
 - 返回值：返回一个 Promise 对象，包含表名称数组
-- 
+-
 
 ## 表的操作方法
 
@@ -152,7 +152,7 @@ useDatabase('dbName').then()
 
 ```javascript
 //创建表
-(async function () {
+(async function() {
   let res = await db.createTable("数据库名称", "表的名称", "索引数组");
 })();
 ```
@@ -183,8 +183,9 @@ useDatabase('dbName').then()
 > 可以通过这个参数来控制是展示查询到的第一条还是全部数据。
 
 - `findDBData(dbName: string, tableName?: string)`: 查询表的数据
-- `findByKey(dbName: string, tableName: string, key: any,  isAll: boolean = true)`: 根据主键查询数据
-- `findByIndex(dbName: string, tableName: string, indexName: string, indexValue: any,isAll: boolean = true)`: 根据索引查询
+- `findByKey(dbName: string, tableName: string, key: any, isAll: boolean = true)`: 根据主键查询数据
+- `findByIndex(dbName: string, tableName: string, indexName: string, indexValue: any,isAll: boolean = true)`:
+  根据索引查询
 
 ### 插入
 
@@ -192,7 +193,7 @@ useDatabase('dbName').then()
 - `insertMany(dbName: any, tableName: string, data: any[]): 向指定表中插入多条数据
 
 ```javascript
-(async function () {
+(async function() {
   //插入一条数据
   let res = await db.insertOne("数据库名称", "表的名称", "数据");
 })();
@@ -201,10 +202,11 @@ useDatabase('dbName').then()
 ### 更新
 
 - `updateDataByPrimaryKey(dbName: any, storeName: string, id: number, data: any`): 根据主键更新数据
-- `updateDataByIndex(dbName: any, storeName: string, indexName: string, indexValue: any, data: any): 根据索引更新数据
+- `updateDataByIndex(dbName: any, storeName: string, indexName: string, indexValue: any, data: any):
+  根据索引更新数据
 
 ```javascript
-(async function () {
+(async function() {
   //根据主键更新数据
   let res = await db.updateDataByPrimaryKey(
     "数据库名称",
@@ -218,11 +220,11 @@ useDatabase('dbName').then()
 ### 删除
 
 - `deleteOneByPk(dbName: string, tableName: string, id: number): 根据主键删除数据
-- `deleteOneByIndex(dbName: string, tableName: string, indexName: string, indexValue: any)`: 根据索引删除数据
+- `deleteOneByIndex(dbName: string, tableName: string, indexName: string, indexValue: any)`:
+  根据索引删除数据
 - `deleteManyByKeys(dbName: string, tableName: string, ids: number[])`: 根据主键数组批量删除数据
-- `deleteManyByIndex(dbName: string, tableName: string, indexName: string, indexValues: any[])`: 根据索引批量删除数据
-
-
+- `deleteManyByIndex(dbName: string, tableName: string, indexName: string, indexValues: any[])`:
+  根据索引批量删除数据
 
 ## CRUD方法具体介绍
 
@@ -235,7 +237,7 @@ useDatabase('dbName').then()
 - 返回值：返回一个 Promise 对象，包含查询结果数组
 
 ```javascript
-(async function () {
+(async function() {
   //查询表的数据
   let res = await db.updateDataByPrimaryKey("数据库名称", "表的名称_可选");
 })();

@@ -4,7 +4,7 @@
   "description": "",
   "keywords": [],
   "main": "dist/indexeddb-toolkit.umd.js",
-  "module": "dist/indexeddb-toolkit.js",
+  "module": "dist/indexeddb-toolkit.es5.js",
   "typings": "dist/types/indexeddb-toolkit.d.ts",
   "files": [
     "dist"
