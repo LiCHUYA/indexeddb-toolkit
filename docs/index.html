@@ -1,0 +1,289 @@
+<!DOCTYPE html><html class="default" lang="en"><head><meta charset="utf-8"/><meta http-equiv="x-ua-compatible" content="IE=edge"/><title>indexeddb-toolkit</title><meta name="description" content="Documentation for indexeddb-toolkit"/><meta name="viewport" content="width=device-width, initial-scale=1"/><link rel="stylesheet" href="assets/style.css"/><link rel="stylesheet" href="assets/highlight.css"/><script defer src="assets/main.js"></script><script async src="assets/icons.js" id="tsd-icons-script"></script><script async src="assets/search.js" id="tsd-search-script"></script><script async src="assets/navigation.js" id="tsd-nav-script"></script></head><body><script>document.documentElement.dataset.theme = localStorage.getItem("tsd-theme") || "os";document.body.style.display="none";setTimeout(() => app?app.showPage():document.body.style.removeProperty("display"),500)</script><header class="tsd-page-toolbar"><div class="tsd-toolbar-contents container"><div class="table-cell" id="tsd-search" data-base="."><div class="field"><label for="tsd-search-field" class="tsd-widget tsd-toolbar-icon search no-caption"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><use href="assets/icons.svg#icon-search"></use></svg></label><input type="text" id="tsd-search-field" aria-label="Search"/></div><div class="field"><div id="tsd-toolbar-links"></div></div><ul class="results"><li class="state loading">Preparing search index...</li><li class="state failure">The search index is not available</li></ul><a href="index.html" class="title">indexeddb-toolkit</a></div><div class="table-cell" id="tsd-widgets"><a href="#" class="tsd-widget tsd-toolbar-icon menu no-caption" data-toggle="menu" aria-label="Menu"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><use href="assets/icons.svg#icon-menu"></use></svg></a></div></div></header><div class="container container-main"><div class="col-content"><div class="tsd-page-title"><h2>indexeddb-toolkit</h2></div><div class="tsd-panel tsd-typography"><a id="md:indexeddb-toolkit" class="tsd-anchor"></a><h1 class="tsd-anchor-link"><strong>indexeddb-toolkit</strong><a href="#md:indexeddb-toolkit" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="assets/icons.svg#icon-anchor"></use></svg></a></h1><ul>
+<li><strong>indexeddb-toolkit</strong>是一个用于浏览器的轻量级数据库操作库，使用 ts+promise 提供了对 IndexedDB
+的封装和便捷的
+API，用于简化数据库的创建、表的管理和数据的增删改查操作。它提供了一系列的方法来操作数据库和表，包括创建、删除、查询和更新数据等功能,来减少开发者的成本,API命名与主流数据库orm类似,</li>
+</ul>
+<a id="md:安装" class="tsd-anchor"></a><h2 class="tsd-anchor-link">安装<a href="#md:安装" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="assets/icons.svg#icon-anchor"></use></svg></a></h2><pre><code class="js"><span class="hl-0">npm</span><span class="hl-1"> </span><span class="hl-0">i</span><span class="hl-1"> </span><span class="hl-0">indexeddb</span><span class="hl-1">-</span><span class="hl-0">toolkit</span>
+</code><button type="button">Copy</button></pre>
+
+<a id="md:使用方式" class="tsd-anchor"></a><h2 class="tsd-anchor-link">使用方式<a href="#md:使用方式" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="assets/icons.svg#icon-anchor"></use></svg></a></h2><p>方式一</p>
+<pre><code class="javascript"><span class="hl-2">import</span><span class="hl-1"> { </span><span class="hl-0">useDatabase</span><span class="hl-1"> } </span><span class="hl-2">from</span><span class="hl-1"> </span><span class="hl-3">&#39;indexeddb-toolkit&#39;</span>
+</code><button type="button">Copy</button></pre>
+
+<p>方式二</p>
+<pre><code class="js"><span class="hl-2">import</span><span class="hl-1"> </span><span class="hl-0">indexeddbToolkit</span><span class="hl-1"> </span><span class="hl-2">from</span><span class="hl-1"> </span><span class="hl-3">&#39;indexeddb-toolkit&#39;</span><br/><br/><span class="hl-4">const</span><span class="hl-1"> { </span><span class="hl-5">useDatabase</span><span class="hl-1"> } = </span><span class="hl-0">indexeddbToolkit</span>
+</code><button type="button">Copy</button></pre>
+
+<p>方式三</p>
+<pre><code class="js"><span class="hl-6">&lt;</span><span class="hl-7">script</span><span class="hl-1"> </span><span class="hl-8">src</span><span class="hl-1">=</span><span class="hl-3">&quot;../dist/indexeddb-toolkit.js&quot;</span><span class="hl-6">&gt;&lt;/</span><span class="hl-7">script</span><span class="hl-6">&gt;</span><br/><span class="hl-6">&lt;</span><span class="hl-7">script</span><span class="hl-6">&gt;</span><br/><span class="hl-1">  console.log(indexeddbToolkit)</span><br/><span class="hl-6">&lt;/</span><span class="hl-7">script</span><span class="hl-6">&gt;</span>
+</code><button type="button">Copy</button></pre>
+
+<a id="md:使用前必看" class="tsd-anchor"></a><h2 class="tsd-anchor-link"><strong><span style="color:red">使用前必看!</span></strong><a href="#md:使用前必看" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="assets/icons.svg#icon-anchor"></use></svg></a></h2><blockquote>
+<p>学习API之前,提前先了解一下核心基础</p>
+<ol>
+<li><strong>由于indexeddb的一些限制,请不要创建表和创建数据库同时进行。</strong></li>
+<li>该库封装分为两大块:database,table的操作,对应着&quot;数据库&quot;,&quot;表&quot;,也对应着对它们的crud方法延申。</li>
+<li>本库都采用promise的方式,我们可以轻松使用async,await的方式拿到其结果。</li>
+<li>indexedb是支持nosql的非关系型数据库。</li>
+</ol>
+</blockquote>
+<hr>
+<blockquote>
+<p>有很好用的三个API,笔者在这单独拿出来提一下</p>
+<p>创建数据库<strong>useDatabase</strong>, 查询数据<strong>findDBData</strong>, 创建表<strong>createTable</strong></p>
+<p>1.useDatabase(dbName: string)</p>
+<p>该方法可以不用考虑繁杂琐碎的原生API, 只需要传入一个名字便,无感创建/使用数据库,极大减小心智负担。</p>
+<p>2.<code>createTable(dbName: string, tableName: string, indexs: any[])</code></p>
+<p>该方法接收三个参数,数据库名,表名和索引数组。</p>
+<p>当不太熟悉什么是索引时,我们可以看以下示例:</p>
+<pre><code class="js"><span class="hl-0">我们从indexeddb中某张表中查出了一条数据</span><span class="hl-1">,</span><br/><span class="hl-1">	{</span><span class="hl-9">id</span><span class="hl-1">:</span><span class="hl-10">1</span><span class="hl-1">,</span><span class="hl-9">age</span><span class="hl-1">:</span><span class="hl-10">18</span><span class="hl-1">,</span><span class="hl-9">sex</span><span class="hl-1">:</span><span class="hl-3">&#39;男&#39;</span><span class="hl-1">}</span><br/><span class="hl-1">	</span><span class="hl-0">以上对象中有id</span><span class="hl-1">,</span><span class="hl-0">age</span><span class="hl-1">,</span><span class="hl-0">sex为key</span><span class="hl-1">,</span><span class="hl-0">那么就可以任意选择这三个字段作为索引id数组中的某一项</span><span class="hl-1">,</span><span class="hl-0">这对后面查询方法会很有用</span><span class="hl-1">,</span><span class="hl-0">想查询出age</span><span class="hl-1">=18</span><span class="hl-0">的数据</span><span class="hl-1">,</span><span class="hl-0">就可以用索引来进行查询</span><span class="hl-1">。</span><br/><br/><span class="hl-9">示例</span><span class="hl-1">:</span><br/><span class="hl-2">await</span><span class="hl-1"> </span><span class="hl-11">createTable</span><span class="hl-1">(</span><span class="hl-3">&#39;db&#39;</span><span class="hl-1">,</span><span class="hl-3">&#39;tb&#39;</span><span class="hl-1">,[</span><span class="hl-3">&#39;id&#39;</span><span class="hl-1">,</span><span class="hl-3">&#39;name&#39;</span><span class="hl-1">,</span><span class="hl-3">&#39;age&#39;</span><span class="hl-1">]) </span><span class="hl-12">//创建表</span><br/><span class="hl-2">await</span><span class="hl-1"> </span><span class="hl-11">insertOne</span><span class="hl-1">(</span><span class="hl-3">&#39;db&#39;</span><span class="hl-1">,</span><span class="hl-3">&#39;tb&#39;</span><span class="hl-1">,{</span><span class="hl-0">id:</span><span class="hl-10">1</span><span class="hl-1">,</span><span class="hl-0">age:</span><span class="hl-10">18</span><span class="hl-1">,</span><span class="hl-0">sex:</span><span class="hl-3">&#39;男&#39;</span><span class="hl-1">}) </span><span class="hl-12">//插入一条数据</span><br/><br/><span class="hl-0">使用索引查询数据</span><br/><span class="hl-2">await</span><span class="hl-1"> </span><span class="hl-11">findByIndex</span><span class="hl-1">(</span><span class="hl-3">&#39;db&#39;</span><span class="hl-1">,</span><span class="hl-3">&#39;tb&#39;</span><span class="hl-1">,</span><span class="hl-3">&#39;age&#39;</span><span class="hl-1">,</span><span class="hl-3">&#39;18&#39;</span><span class="hl-1">) </span><span class="hl-12">//这样就能查询出所有age为18的这一条数据</span><br/>
+</code><button type="button">Copy</button></pre>
+
+<p>3.<code>findDBData(dbName: string, tableName?: string)</code></p>
+<p>该方法用于查询数据库中表格的数据,可以传入两个参数,一个是dbName,一个是tbName,</p>
+<p>当只传入dbName的时候,查询 该数据库下所有表,以及所有数据,呈树状结构</p>
+</blockquote>
+<a id="md:数据库的操作方法" class="tsd-anchor"></a><h2 class="tsd-anchor-link">数据库的操作方法<a href="#md:数据库的操作方法" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="assets/icons.svg#icon-anchor"></use></svg></a></h2><ul>
+<li><code>useDatabase(dbName: string)</code>: 使用/创建指定数据库</li>
+<li><code>deleteAllDatabases()</code>: 删除所有数据库</li>
+<li><code>deleteDatabase(dbName: string)</code>: 删除指定数据库</li>
+<li><code>getTableNames(dbName: string)</code>: 获取指定数据库的表名列表</li>
+</ul>
+<a id="md:usedatabasedbname-string" class="tsd-anchor"></a><h4 class="tsd-anchor-link"><code>useDatabase(dbName: string)</code><a href="#md:usedatabasedbname-string" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="assets/icons.svg#icon-anchor"></use></svg></a></h4><ul>
+<li>功能：使用/创建指定数据库，如果数据库不存在则创建，存在则表示使用数据库</li>
+<li>参数：
+<ul>
+<li><code>dbName</code> - 数据库名称</li>
+</ul>
+</li>
+<li>返回值：返回一个 Promise 对象，包含当前数据库实例</li>
+</ul>
+<pre><code class="javascript"><span class="hl-12">//使用示例</span><br/><span class="hl-1">(</span><span class="hl-4">async</span><span class="hl-1"> </span><span class="hl-4">function</span><span class="hl-1">() {</span><br/><span class="hl-1">  </span><span class="hl-4">let</span><span class="hl-1"> </span><span class="hl-0">res</span><span class="hl-1"> = </span><span class="hl-2">await</span><span class="hl-1"> </span><span class="hl-11">useDatabase</span><span class="hl-1">(</span><span class="hl-3">&quot;数据库名称&quot;</span><span class="hl-1">);</span><br/><span class="hl-1">})();</span><br/><br/><span class="hl-12">//或者</span><br/><span class="hl-11">useDatabase</span><span class="hl-1">(</span><span class="hl-3">&#39;dbName&#39;</span><span class="hl-1">).</span><span class="hl-11">then</span><span class="hl-1">()</span>
+</code><button type="button">Copy</button></pre>
+
+<a id="md:deletealldatabases" class="tsd-anchor"></a><h4 class="tsd-anchor-link"><code>deleteAllDatabases()</code><a href="#md:deletealldatabases" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="assets/icons.svg#icon-anchor"></use></svg></a></h4><ul>
+<li>功能：删除所有数据库</li>
+<li>参数：无</li>
+<li>返回值：返回一个 Promise 对象，包含删除结果的状态和消息</li>
+</ul>
+<a id="md:deletedatabasedbname-string" class="tsd-anchor"></a><h4 class="tsd-anchor-link"><code>deleteDatabase(dbName: string)</code><a href="#md:deletedatabasedbname-string" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="assets/icons.svg#icon-anchor"></use></svg></a></h4><ul>
+<li>功能：删除指定数据库</li>
+<li>参数：
+<ul>
+<li><code>dbName</code> - 数据库名称</li>
+</ul>
+</li>
+<li>返回值：返回一个 Promise 对象，包含删除结果的状态和消息</li>
+</ul>
+<a id="md:gettablenamesdbname-string" class="tsd-anchor"></a><h4 class="tsd-anchor-link"><code>getTableNames(dbName: string)</code><a href="#md:gettablenamesdbname-string" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="assets/icons.svg#icon-anchor"></use></svg></a></h4><ul>
+<li>功能：获取指定数据库中的表名列表</li>
+<li>参数：
+<ul>
+<li><code>dbName</code> - 数据库名称</li>
+</ul>
+</li>
+<li>返回值：返回一个 Promise 对象，包含表名称数组</li>
+<li></li>
+</ul>
+<a id="md:表的操作方法" class="tsd-anchor"></a><h2 class="tsd-anchor-link">表的操作方法<a href="#md:表的操作方法" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="assets/icons.svg#icon-anchor"></use></svg></a></h2><a id="md:创建表" class="tsd-anchor"></a><h3 class="tsd-anchor-link">创建表<a href="#md:创建表" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="assets/icons.svg#icon-anchor"></use></svg></a></h3><ul>
+<li><code>createTable(dbName: string, tableName: string, indexs: any[])</code>: 创建表</li>
+<li><code>deleteTable(dbName: string, tableName: string)</code>: 删除指定表</li>
+<li>`deleteAllTables(dbName: string): 删除所有表</li>
+</ul>
+<a id="md:createtabledbname-string-tablename-string-indexs-any" class="tsd-anchor"></a><h4 class="tsd-anchor-link"><code>createTable(dbName: string, tableName: string, indexs: any[])</code><a href="#md:createtabledbname-string-tablename-string-indexs-any" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="assets/icons.svg#icon-anchor"></use></svg></a></h4><ul>
+<li>功能：创建表</li>
+<li>参数：
+<ul>
+<li><code>dbName</code> - 数据库名称</li>
+<li><code>tableName</code> - 表名称</li>
+<li><code>indexs</code> - 索引数组</li>
+</ul>
+</li>
+<li>返回值：返回一个 Promise 对象，包含创建结果的状态和状态码</li>
+</ul>
+<pre><code class="javascript"><span class="hl-12">//创建表</span><br/><span class="hl-1">(</span><span class="hl-4">async</span><span class="hl-1"> </span><span class="hl-4">function</span><span class="hl-1">() {</span><br/><span class="hl-1">  </span><span class="hl-4">let</span><span class="hl-1"> </span><span class="hl-0">res</span><span class="hl-1"> = </span><span class="hl-2">await</span><span class="hl-1"> </span><span class="hl-0">db</span><span class="hl-1">.</span><span class="hl-11">createTable</span><span class="hl-1">(</span><span class="hl-3">&quot;数据库名称&quot;</span><span class="hl-1">, </span><span class="hl-3">&quot;表的名称&quot;</span><span class="hl-1">, </span><span class="hl-3">&quot;索引数组&quot;</span><span class="hl-1">);</span><br/><span class="hl-1">})();</span>
+</code><button type="button">Copy</button></pre>
+
+<a id="md:deletetabledbname-string-tablename-string" class="tsd-anchor"></a><h4 class="tsd-anchor-link"><code>deleteTable(dbName: string, tableName: string)</code><a href="#md:deletetabledbname-string-tablename-string" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="assets/icons.svg#icon-anchor"></use></svg></a></h4><ul>
+<li>功能：删除指定表</li>
+<li>参数：
+<ul>
+<li><code>dbName</code> - 数据库名称</li>
+<li><code>tableName</code> - 表名称</li>
+</ul>
+</li>
+<li>返回值：返回一个 Promise 对象，包含删除结果的状态和消息</li>
+</ul>
+<a id="md:deletealltablesdbname-string" class="tsd-anchor"></a><h4 class="tsd-anchor-link"><code>deleteAllTables(dbName: string)</code><a href="#md:deletealltablesdbname-string" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="assets/icons.svg#icon-anchor"></use></svg></a></h4><ul>
+<li>功能：删除指定数据库中的所有表</li>
+<li>参数：
+<ul>
+<li><code>dbName</code> - 数据库名称</li>
+</ul>
+</li>
+<li>返回值：返回一个 Promise 对象，包含删除结果的状态和消息</li>
+</ul>
+<a id="md:表数据操作方法" class="tsd-anchor"></a><h2 class="tsd-anchor-link">表数据操作方法<a href="#md:表数据操作方法" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="assets/icons.svg#icon-anchor"></use></svg></a></h2><a id="md:查询" class="tsd-anchor"></a><h3 class="tsd-anchor-link">查询<a href="#md:查询" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="assets/icons.svg#icon-anchor"></use></svg></a></h3><p><strong>注意事项:</strong></p>
+<blockquote>
+<p>findByKey和findByIndex时,最后一个参数为isAll,因为indexeddb根据主键和索引查询出来的数据只展示第一条,</p>
+<p>可以通过这个参数来控制是展示查询到的第一条还是全部数据。</p>
+</blockquote>
+<ul>
+<li><code>findDBData(dbName: string, tableName?: string)</code>: 查询表的数据</li>
+<li><code>findByKey(dbName: string, tableName: string, key: any, isAll: boolean = true)</code>: 根据主键查询数据</li>
+<li><code>findByIndex(dbName: string, tableName: string, indexName: string, indexValue: any,isAll: boolean = true)</code>:
+根据索引查询</li>
+</ul>
+<a id="md:插入" class="tsd-anchor"></a><h3 class="tsd-anchor-link">插入<a href="#md:插入" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="assets/icons.svg#icon-anchor"></use></svg></a></h3><ul>
+<li><code>insertOne(dbName: any, tableName: string, data: any)</code>: 向指定表中插入一条数据</li>
+<li>`insertMany(dbName: any, tableName: string, data: any[]): 向指定表中插入多条数据</li>
+</ul>
+<pre><code class="javascript"><span class="hl-1">(</span><span class="hl-4">async</span><span class="hl-1"> </span><span class="hl-4">function</span><span class="hl-1">() {</span><br/><span class="hl-1">  </span><span class="hl-12">//插入一条数据</span><br/><span class="hl-1">  </span><span class="hl-4">let</span><span class="hl-1"> </span><span class="hl-0">res</span><span class="hl-1"> = </span><span class="hl-2">await</span><span class="hl-1"> </span><span class="hl-0">db</span><span class="hl-1">.</span><span class="hl-11">insertOne</span><span class="hl-1">(</span><span class="hl-3">&quot;数据库名称&quot;</span><span class="hl-1">, </span><span class="hl-3">&quot;表的名称&quot;</span><span class="hl-1">, </span><span class="hl-3">&quot;数据&quot;</span><span class="hl-1">);</span><br/><span class="hl-1">})();</span>
+</code><button type="button">Copy</button></pre>
+
+<a id="md:更新" class="tsd-anchor"></a><h3 class="tsd-anchor-link">更新<a href="#md:更新" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="assets/icons.svg#icon-anchor"></use></svg></a></h3><ul>
+<li><code>updateDataByPrimaryKey(dbName: any, storeName: string, id: number, data: any</code>): 根据主键更新数据</li>
+<li>`updateDataByIndex(dbName: any, storeName: string, indexName: string, indexValue: any, data: any):
+根据索引更新数据</li>
+</ul>
+<pre><code class="javascript"><span class="hl-1">(</span><span class="hl-4">async</span><span class="hl-1"> </span><span class="hl-4">function</span><span class="hl-1">() {</span><br/><span class="hl-1">  </span><span class="hl-12">//根据主键更新数据</span><br/><span class="hl-1">  </span><span class="hl-4">let</span><span class="hl-1"> </span><span class="hl-0">res</span><span class="hl-1"> = </span><span class="hl-2">await</span><span class="hl-1"> </span><span class="hl-0">db</span><span class="hl-1">.</span><span class="hl-11">updateDataByPrimaryKey</span><span class="hl-1">(</span><br/><span class="hl-1">    </span><span class="hl-3">&quot;数据库名称&quot;</span><span class="hl-1">,</span><br/><span class="hl-1">    </span><span class="hl-3">&quot;表的名称&quot;</span><span class="hl-1">,</span><br/><span class="hl-1">    </span><span class="hl-3">&quot;主键&quot;</span><span class="hl-1">,</span><br/><span class="hl-1">    </span><span class="hl-3">&quot;数据&quot;</span><br/><span class="hl-1">  );</span><br/><span class="hl-1">})();</span>
+</code><button type="button">Copy</button></pre>
+
+<a id="md:删除" class="tsd-anchor"></a><h3 class="tsd-anchor-link">删除<a href="#md:删除" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="assets/icons.svg#icon-anchor"></use></svg></a></h3><ul>
+<li>`deleteOneByPk(dbName: string, tableName: string, id: number): 根据主键删除数据</li>
+<li><code>deleteOneByIndex(dbName: string, tableName: string, indexName: string, indexValue: any)</code>:
+根据索引删除数据</li>
+<li><code>deleteManyByKeys(dbName: string, tableName: string, ids: number[])</code>: 根据主键数组批量删除数据</li>
+<li><code>deleteManyByIndex(dbName: string, tableName: string, indexName: string, indexValues: any[])</code>:
+根据索引批量删除数据</li>
+</ul>
+<a id="md:crud方法具体介绍" class="tsd-anchor"></a><h2 class="tsd-anchor-link">CRUD方法具体介绍<a href="#md:crud方法具体介绍" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="assets/icons.svg#icon-anchor"></use></svg></a></h2><a id="md:finddbdatadbname-string-tablename-string" class="tsd-anchor"></a><h4 class="tsd-anchor-link"><code>findDBData(dbName: string, tableName?: string)</code><a href="#md:finddbdatadbname-string-tablename-string" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="assets/icons.svg#icon-anchor"></use></svg></a></h4><ul>
+<li>功能：查询数据库中表的数据</li>
+<li>参数：
+<ul>
+<li><code>dbName</code> - 数据库名称</li>
+<li><code>tableName</code> - 表名称，可选，不传则查询所有表的数据</li>
+</ul>
+</li>
+<li>返回值：返回一个 Promise 对象，包含查询结果数组</li>
+</ul>
+<pre><code class="javascript"><span class="hl-1">(</span><span class="hl-4">async</span><span class="hl-1"> </span><span class="hl-4">function</span><span class="hl-1">() {</span><br/><span class="hl-1">  </span><span class="hl-12">//查询表的数据</span><br/><span class="hl-1">  </span><span class="hl-4">let</span><span class="hl-1"> </span><span class="hl-0">res</span><span class="hl-1"> = </span><span class="hl-2">await</span><span class="hl-1"> </span><span class="hl-0">db</span><span class="hl-1">.</span><span class="hl-11">updateDataByPrimaryKey</span><span class="hl-1">(</span><span class="hl-3">&quot;数据库名称&quot;</span><span class="hl-1">, </span><span class="hl-3">&quot;表的名称_可选&quot;</span><span class="hl-1">);</span><br/><span class="hl-1">})();</span>
+</code><button type="button">Copy</button></pre>
+
+<a id="md:findbykeydbname-string-tablename-string-key-any" class="tsd-anchor"></a><h4 class="tsd-anchor-link"><code>findByKey(dbName: string, tableName: string, key: any)</code><a href="#md:findbykeydbname-string-tablename-string-key-any" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="assets/icons.svg#icon-anchor"></use></svg></a></h4><ul>
+<li>功能：根据主键查询数据</li>
+<li>参数：
+<ul>
+<li><code>dbName</code> - 数据库名称</li>
+<li><code>tableName</code> - 表名称</li>
+<li><code>key</code> - 主键值</li>
+</ul>
+</li>
+<li>返回值：返回一个 Promise 对象，包含查询结果对象</li>
+</ul>
+<a id="md:findbyindexdbname-string-tablename-string-indexname-string-indexvalue-any" class="tsd-anchor"></a><h4 class="tsd-anchor-link"><code>findByIndex(dbName: string, tableName: string, indexName: string, indexValue: any)</code><a href="#md:findbyindexdbname-string-tablename-string-indexname-string-indexvalue-any" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="assets/icons.svg#icon-anchor"></use></svg></a></h4><ul>
+<li>功能：根据索引查询数据</li>
+<li>参数：
+<ul>
+<li><code>dbName</code> - 数据库名称</li>
+<li><code>tableName</code> - 表名称</li>
+<li><code>indexName</code> - 索引名称</li>
+<li><code>indexValue</code> - 索引值</li>
+</ul>
+</li>
+<li>返回值：返回一个 Promise 对象，包含查询结果对象</li>
+</ul>
+<a id="md:insertonedbname-any-tablename-string-data-any" class="tsd-anchor"></a><h4 class="tsd-anchor-link"><code>insertOne(dbName: any, tableName: string, data: any)</code><a href="#md:insertonedbname-any-tablename-string-data-any" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="assets/icons.svg#icon-anchor"></use></svg></a></h4><ul>
+<li>功能：向指定表中插入一条数据</li>
+<li>参数：
+<ul>
+<li><code>dbName</code> - 数据库名称</li>
+<li><code>tableName</code> - 表名称</li>
+<li><code>data</code> - 待插入的数据对象</li>
+</ul>
+</li>
+<li>返回值：返回一个 Promise 对象，包含插入结果的状态</li>
+</ul>
+<a id="md:insertmanydbname-any-tablename-string-data-any" class="tsd-anchor"></a><h4 class="tsd-anchor-link"><code>insertMany(dbName: any, tableName: string, data: any[])</code><a href="#md:insertmanydbname-any-tablename-string-data-any" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="assets/icons.svg#icon-anchor"></use></svg></a></h4><ul>
+<li>功能：向指定表中插入多条数据</li>
+<li>参数：
+<ul>
+<li><code>dbName</code> - 数据库名称</li>
+<li><code>tableName</code> - 表名称</li>
+<li><code>data</code> - 待插入的数据数组</li>
+</ul>
+</li>
+<li>返回值：返回一个 Promise 对象，包含插入结果的状态</li>
+</ul>
+<a id="md:updatedatabyprimarykeydbname-any-storename-string-id-number-data-any" class="tsd-anchor"></a><h4 class="tsd-anchor-link"><code>updateDataByPrimaryKey(dbName: any, storeName: string, id: number, data: any)</code><a href="#md:updatedatabyprimarykeydbname-any-storename-string-id-number-data-any" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="assets/icons.svg#icon-anchor"></use></svg></a></h4><ul>
+<li>功能：根据主键更新数据</li>
+<li>参数：
+<ul>
+<li><code>dbName</code> - 数据库名称</li>
+<li><code>storeName</code> - 存储对象的名称</li>
+<li><code>id</code> - 主键值</li>
+<li><code>data</code> - 要更新的数据对象</li>
+</ul>
+</li>
+<li>返回值：返回一个 Promise 对象，包含更新结果的状态</li>
+</ul>
+<a id="md:updatedatabyindexdbname-any-storename-string-indexname-string-indexvalue-any-data-any" class="tsd-anchor"></a><h4 class="tsd-anchor-link"><code>updateDataByIndex(dbName: any, storeName: string, indexName: string, indexValue: any, data: any)</code><a href="#md:updatedatabyindexdbname-any-storename-string-indexname-string-indexvalue-any-data-any" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="assets/icons.svg#icon-anchor"></use></svg></a></h4><ul>
+<li>功能：根据索引更新数据</li>
+<li>参数：
+<ul>
+<li><code>dbName</code> - 数据库名称</li>
+<li><code>storeName</code> - 存储对象的名称</li>
+<li><code>indexName</code> - 索引名称</li>
+<li><code>indexValue</code> - 索引值</li>
+<li><code>data</code> - 要更新的数据对象</li>
+</ul>
+</li>
+<li>返回值：返回一个 Promise 对象，包含更新结果的状态</li>
+</ul>
+<a id="md:deleteonebypkdbname-string-tablename-string-id-number" class="tsd-anchor"></a><h4 class="tsd-anchor-link"><code>deleteOneByPk(dbName: string, tableName: string, id: number)</code><a href="#md:deleteonebypkdbname-string-tablename-string-id-number" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="assets/icons.svg#icon-anchor"></use></svg></a></h4><ul>
+<li>功能：根据主键删除数据</li>
+<li>参数：
+<ul>
+<li><code>dbName</code> - 数据库名称</li>
+<li><code>tableName</code> - 表名称</li>
+<li><code>id</code> - 主键值</li>
+</ul>
+</li>
+<li>返回值：返回一个 Promise 对象，包含删除结果的状态和消息</li>
+</ul>
+<a id="md:deleteonebyindexdbname-string-tablename-string-indexname-string-indexvalue-any" class="tsd-anchor"></a><h4 class="tsd-anchor-link"><code>deleteOneByIndex(dbName: string, tableName: string, indexName: string, indexValue: any)</code><a href="#md:deleteonebyindexdbname-string-tablename-string-indexname-string-indexvalue-any" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="assets/icons.svg#icon-anchor"></use></svg></a></h4><ul>
+<li>功能：根据索引删除数据</li>
+<li>参数：
+<ul>
+<li><code>dbName</code> - 数据库名称</li>
+<li><code>tableName</code> - 表名称</li>
+<li><code>indexName</code> - 索引名称</li>
+<li><code>indexValue</code> - 索引值</li>
+</ul>
+</li>
+<li>返回值：返回一个 Promise 对象，包含删除结果的状态和消息</li>
+</ul>
+<a id="md:deletemanybypkdbname-string-tablename-string-ids-number" class="tsd-anchor"></a><h4 class="tsd-anchor-link"><code>deleteManyByPK(dbName: string, tableName: string, ids: number[])</code><a href="#md:deletemanybypkdbname-string-tablename-string-ids-number" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="assets/icons.svg#icon-anchor"></use></svg></a></h4><ul>
+<li>功能：根据主键数组批量删除数据</li>
+<li>参数：
+<ul>
+<li><code>dbName</code> - 数据库名称</li>
+<li><code>tableName</code> - 表名称</li>
+<li><code>ids</code> - 主键值数组</li>
+</ul>
+</li>
+<li>返回值：返回一个 Promise 对象，包含删除结果的状态和消息</li>
+</ul>
+<a id="md:deletemanybyindexdbname-string-tablename-string-indexname-string-indexvalues-any" class="tsd-anchor"></a><h4 class="tsd-anchor-link"><code>deleteManyByIndex(dbName: string, tableName: string, indexName: string, indexValues: any[])</code><a href="#md:deletemanybyindexdbname-string-tablename-string-indexname-string-indexvalues-any" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="assets/icons.svg#icon-anchor"></use></svg></a></h4><ul>
+<li>功能：根据索引批量删除数据</li>
+<li>参数：
+<ul>
+<li><code>dbName</code> - 数据库名称</li>
+<li><code>tableName</code> - 表名称</li>
+<li><code>indexName</code> - 索引名称</li>
+<li><code>indexValues</code> - 索引值数组</li>
+</ul>
+</li>
+<li>返回值：返回一个 Promise 对象，包含删除结果的状态和消息</li>
+</ul>
+</div></div><div class="col-sidebar"><div class="page-menu"><div class="tsd-navigation settings"><details class="tsd-accordion"><summary class="tsd-accordion-summary"><h3><svg width="20" height="20" viewBox="0 0 24 24" fill="none"><use href="assets/icons.svg#icon-chevronDown"></use></svg>Settings</h3></summary><div class="tsd-accordion-details"><div class="tsd-filter-visibility"><span class="settings-label">Member Visibility</span><ul id="tsd-filter-options"><li class="tsd-filter-item"><label class="tsd-filter-input"><input type="checkbox" id="tsd-filter-protected" name="protected"/><svg width="32" height="32" viewBox="0 0 32 32" aria-hidden="true"><rect class="tsd-checkbox-background" width="30" height="30" x="1" y="1" rx="6" fill="none"></rect><path class="tsd-checkbox-checkmark" d="M8.35422 16.8214L13.2143 21.75L24.6458 10.25" stroke="none" stroke-width="3.5" stroke-linejoin="round" fill="none"></path></svg><span>Protected</span></label></li><li class="tsd-filter-item"><label class="tsd-filter-input"><input type="checkbox" id="tsd-filter-inherited" name="inherited" checked/><svg width="32" height="32" viewBox="0 0 32 32" aria-hidden="true"><rect class="tsd-checkbox-background" width="30" height="30" x="1" y="1" rx="6" fill="none"></rect><path class="tsd-checkbox-checkmark" d="M8.35422 16.8214L13.2143 21.75L24.6458 10.25" stroke="none" stroke-width="3.5" stroke-linejoin="round" fill="none"></path></svg><span>Inherited</span></label></li><li class="tsd-filter-item"><label class="tsd-filter-input"><input type="checkbox" id="tsd-filter-external" name="external"/><svg width="32" height="32" viewBox="0 0 32 32" aria-hidden="true"><rect class="tsd-checkbox-background" width="30" height="30" x="1" y="1" rx="6" fill="none"></rect><path class="tsd-checkbox-checkmark" d="M8.35422 16.8214L13.2143 21.75L24.6458 10.25" stroke="none" stroke-width="3.5" stroke-linejoin="round" fill="none"></path></svg><span>External</span></label></li></ul></div><div class="tsd-theme-toggle"><label class="settings-label" for="tsd-theme">Theme</label><select id="tsd-theme"><option value="os">OS</option><option value="light">Light</option><option value="dark">Dark</option></select></div></div></details></div><details open class="tsd-accordion tsd-page-navigation"><summary class="tsd-accordion-summary"><h3><svg width="20" height="20" viewBox="0 0 24 24" fill="none"><use href="assets/icons.svg#icon-chevronDown"></use></svg>On This Page</h3></summary><div class="tsd-accordion-details"><a href="#md:indexeddb-toolkit"><span>indexeddb-<wbr/>toolkit</span></a><ul><li><a href="#md:安装"><span>安装</span></a></li><li><a href="#md:使用方式"><span>使用方式</span></a></li><li><a href="#md:使用前必看"><span>&lt;span style=&quot;color:red&quot;&gt;使用前必看!&lt;/span&gt;</span></a></li><li><a href="#md:数据库的操作方法"><span>数据库的操作方法</span></a></li><li><ul><li><ul><li><a href="#md:usedatabasedbname-string"><span>use<wbr/>Database(db<wbr/>Name: string)</span></a></li><li><a href="#md:deletealldatabases"><span>delete<wbr/>All<wbr/>Databases()</span></a></li><li><a href="#md:deletedatabasedbname-string"><span>delete<wbr/>Database(db<wbr/>Name: string)</span></a></li><li><a href="#md:gettablenamesdbname-string"><span>get<wbr/>Table<wbr/>Names(db<wbr/>Name: string)</span></a></li></ul></li></ul></li><li><a href="#md:表的操作方法"><span>表的操作方法</span></a></li><li><ul><li><a href="#md:创建表"><span>创建表</span></a></li><li><ul><li><a href="#md:createtabledbname-string-tablename-string-indexs-any"><span>create<wbr/>Table(db<wbr/>Name: string, table<wbr/>Name: string, indexs: any[])</span></a></li><li><a href="#md:deletetabledbname-string-tablename-string"><span>delete<wbr/>Table(db<wbr/>Name: string, table<wbr/>Name: string)</span></a></li><li><a href="#md:deletealltablesdbname-string"><span>delete<wbr/>All<wbr/>Tables(db<wbr/>Name: string)</span></a></li></ul></li></ul></li><li><a href="#md:表数据操作方法"><span>表数据操作方法</span></a></li><li><ul><li><a href="#md:查询"><span>查询</span></a></li><li><a href="#md:插入"><span>插入</span></a></li><li><a href="#md:更新"><span>更新</span></a></li><li><a href="#md:删除"><span>删除</span></a></li></ul></li><li><a href="#md:crud方法具体介绍"><span>CRUD方法具体介绍</span></a></li><li><ul><li><a href="#md:finddbdatadbname-string-tablename-string"><span>findDBData(db<wbr/>Name: string, table<wbr/>Name?: string)</span></a></li><li><a href="#md:findbykeydbname-string-tablename-string-key-any"><span>find<wbr/>By<wbr/>Key(db<wbr/>Name: string, table<wbr/>Name: string, key: any)</span></a></li><li><a href="#md:findbyindexdbname-string-tablename-string-indexname-string-indexvalue-any"><span>find<wbr/>By<wbr/>Index(db<wbr/>Name: string, table<wbr/>Name: string, index<wbr/>Name: string, index<wbr/>Value: any)</span></a></li><li><a href="#md:insertonedbname-any-tablename-string-data-any"><span>insert<wbr/>One(db<wbr/>Name: any, table<wbr/>Name: string, data: any)</span></a></li><li><a href="#md:insertmanydbname-any-tablename-string-data-any"><span>insert<wbr/>Many(db<wbr/>Name: any, table<wbr/>Name: string, data: any[])</span></a></li><li><a href="#md:updatedatabyprimarykeydbname-any-storename-string-id-number-data-any"><span>update<wbr/>Data<wbr/>By<wbr/>Primary<wbr/>Key(db<wbr/>Name: any, store<wbr/>Name: string, id: number, data: any)</span></a></li><li><a href="#md:updatedatabyindexdbname-any-storename-string-indexname-string-indexvalue-any-data-any"><span>update<wbr/>Data<wbr/>By<wbr/>Index(db<wbr/>Name: any, store<wbr/>Name: string, index<wbr/>Name: string, index<wbr/>Value: any, data: any)</span></a></li><li><a href="#md:deleteonebypkdbname-string-tablename-string-id-number"><span>delete<wbr/>One<wbr/>By<wbr/>Pk(db<wbr/>Name: string, table<wbr/>Name: string, id: number)</span></a></li><li><a href="#md:deleteonebyindexdbname-string-tablename-string-indexname-string-indexvalue-any"><span>delete<wbr/>One<wbr/>By<wbr/>Index(db<wbr/>Name: string, table<wbr/>Name: string, index<wbr/>Name: string, index<wbr/>Value: any)</span></a></li><li><a href="#md:deletemanybypkdbname-string-tablename-string-ids-number"><span>delete<wbr/>Many<wbr/>ByPK(db<wbr/>Name: string, table<wbr/>Name: string, ids: number[])</span></a></li><li><a href="#md:deletemanybyindexdbname-string-tablename-string-indexname-string-indexvalues-any"><span>delete<wbr/>Many<wbr/>By<wbr/>Index(db<wbr/>Name: string, table<wbr/>Name: string, index<wbr/>Name: string, index<wbr/>Values: any[])</span></a></li></ul></li></ul></div></details></div><div class="site-menu"><nav class="tsd-navigation"><a href="modules.html" class="current"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="assets/icons.svg#icon-1"></use></svg><span>indexeddb-toolkit</span></a><ul class="tsd-small-nested-navigation" id="tsd-nav-container" data-base="."><li>Loading...</li></ul></nav></div></div></div><footer><p class="tsd-generator">Generated using <a href="https://typedoc.org/" target="_blank">TypeDoc</a></p></footer><div class="overlay"></div></body></html>
