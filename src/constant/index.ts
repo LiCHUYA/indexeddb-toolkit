@@ -17,6 +17,9 @@ const ResponseMessages = {
   TB_DELETE_BY_PK_SUCCESS: (data: any) => returnFormater(200, '通过主键删除成功'),
   TB_DELETE_BY_INDEX_SUCCESS: (data: any) => returnFormater(200, '通过索引删除成功'),
   TB_DATA_UPDATE_BY_INDEX_SUCCESS: (data?: any) => returnFormater(200, '通过索引更新数据成功', data),
+  TB_DELETE_SUCCESS: (info) => returnFormater(200, '表删除成功', info),
+  TB_DELETE_RECORDS_BY_KEYS_SUCCESS: (info) => returnFormater(200, '通过主键批量删除表数据删除成功', info),
+  TB_DELETE_MANY_BY_INDEXS_SUCCESS: (info) => returnFormater(200, '通过索引批量删除表数据删除成功', info),
   // 失败
   BASIC_ERROR: (error: Response) => returnFormater(400, 'error', error),
   DBNAME_IS_NULL: () => returnFormater(401, `数据库名称不能为空`),
@@ -44,6 +47,9 @@ const ResponseMessages = {
   TB_DELETE_BY_PK_ERROR: (error: any) => returnFormater(424, '通过主键删除失败', error),
   TB_DELETE_BY_INDEX_ERROR: (data: any) => returnFormater(425, '通过索引删除失败'),
   TB_DATA_UPDATE_BY_INDEX_ERROR: (data?: any) => returnFormater(426, '通过索引更新数据失败', data),
+  TB_DELETE_ERROR: (data?: any) => returnFormater(427, '表删除失败', data),
+  TB_DELETE_RECORDS_BY_KEYS_ERROR: (info) => returnFormater(428, '通过主键批量删除表数据删除失败', info),
+  TB_DELETE_MANY_BY_INDEXS_ERROR: (info) => returnFormater(429, '通过索引批量删除表数据删除失败', info),
 }
 
 export default ResponseMessages

@@ -7,12 +7,16 @@ import deleteAllDatabases from "./database/deleteAllDatabases";
 import createTable from "./table/createTable";
 import insertOne from "./table/insertOne";
 import insertMany from "./table/insertMany";
-import findTableData from "./table/findTableData";
+import findDBData from "./findDBData";
 import updateDataByPrimaryKey from "./table/updateDataByPrimaryKey";
 import findByKey from "./table/findByKey";
 import findByIndex from "./table/findByIndex";
 import deleteOneByPk from "./table/deleteOneByPk";
 import deleteOneByIndex from './table/deleteOneByIndex'
+import deleteAllTables from './database/deleteAllTables'
+import deleteTable from './database/deleteTable'
+import deleteManyByKeys from "./table/deleteManyByKeys";
+import deleteManyByIndex from "./table/deleteManyByIndex";
 
 export {
   // 使用数据库
@@ -26,10 +30,14 @@ export {
   createTable,
   insertOne,
   insertMany,
-  findTableData,
+  findDBData,
   updateDataByPrimaryKey,
   findByKey,
   findByIndex,
   deleteOneByPk,
-  deleteOneByIndex
+  deleteOneByIndex,
+  deleteAllTables,
+  deleteTable,
+  deleteManyByKeys,
+  deleteManyByIndex
 }

@@ -1,8 +1,8 @@
 // 查询表的数据
-import ResponseMessages from "../../constant";
-import {useDatabase} from "../index";
+import ResponseMessages from "../constant";
+import {useDatabase} from "./index";
 
-async function findTableData(dbName: string, tableName?: string): Promise<any> {
+async function findDBData(dbName: string, tableName?: string): Promise<any> {
   if (!dbName) {
     return ResponseMessages.DBNAME_IS_NULL()
   }
@@ -22,7 +22,7 @@ async function findTableData(dbName: string, tableName?: string): Promise<any> {
     if (!store) {
       console.log(`${dbName} 数据库未打开`);
       await useDatabase(dbName);
-      return findTableData(dbName); // 只传数据库名称，重新查询所有表的数据
+      return findDBData(dbName); // 只传数据库名称，重新查询所有表的数据
     }
 
     const request = store.getAll();
@@ -38,7 +38,7 @@ async function findTableData(dbName: string, tableName?: string): Promise<any> {
     });
 
     result.push({
-      name: tableName,
+      tableName: tableName,
       version: this.currentDb?.version || "",
       children: data,
     });
@@ -81,7 +81,7 @@ async function findTableData(dbName: string, tableName?: string): Promise<any> {
       });
 
       result.push({
-        name: storeName || "",
+        tableName: storeName || "",
         version: currentDb?.version || "",
         children: data,
       });
@@ -91,4 +91,4 @@ async function findTableData(dbName: string, tableName?: string): Promise<any> {
   return result;
 }
 
-export default findTableData
+export default findDBData
