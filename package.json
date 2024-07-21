@@ -1,8 +1,14 @@
 {
   "name": "indexeddb-toolkit",
-  "version": "0.0.1",
+  "version": "0.0.0",
   "description": "",
-  "keywords": [],
+  "keywords": [
+    "indexeddb",
+    "util",
+    "database",
+    "nosql",
+    "toolkit"
+  ],
   "main": "dist/indexeddb-toolkit.umd.js",
   "module": "dist/indexeddb-toolkit.es5.js",
   "typings": "dist/types/indexeddb-toolkit.d.ts",
