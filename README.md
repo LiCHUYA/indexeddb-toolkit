@@ -4,6 +4,14 @@
   的封装和便捷的
   API，用于简化数据库的创建、表的管理和数据的增删改查操作。它提供了一系列的方法来操作数据库和表，包括创建、删除、查询和更新数据等功能,来减少开发者的成本,API命名与主流数据库orm类似,
 
+## 项目地址
+
+gitee : https://gitee.com/chen-jingsheng-123/indexeddb-toolkit 
+
+github : https://github.com/LiCHUYA/indexeddb-toolkit
+
+type-doc : https://lichuya.github.io/indexeddb-toolkit-typedocs/
+
 ## 安装
 
 ``` js
