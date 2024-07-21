@@ -153,7 +153,7 @@ useDatabase('dbName').then()
 ```javascript
 //创建表
 (async function() {
-  let res = await db.createTable("数据库名称", "表的名称", "索引数组");
+  let res = await createTable("数据库名称", "表的名称", "索引数组");
 })();
 ```
 
@@ -195,7 +195,7 @@ useDatabase('dbName').then()
 ```javascript
 (async function() {
   //插入一条数据
-  let res = await db.insertOne("数据库名称", "表的名称", "数据");
+  let res = await insertOne("数据库名称", "表的名称", "数据");
 })();
 ```
 
@@ -208,7 +208,7 @@ useDatabase('dbName').then()
 ```javascript
 (async function() {
   //根据主键更新数据
-  let res = await db.updateDataByPrimaryKey(
+  let res = await updateDataByPrimaryKey(
     "数据库名称",
     "表的名称",
     "主键",
@@ -239,7 +239,7 @@ useDatabase('dbName').then()
 ```javascript
 (async function() {
   //查询表的数据
-  let res = await db.updateDataByPrimaryKey("数据库名称", "表的名称_可选");
+  let res = await updateDataByPrimaryKey("数据库名称", "表的名称_可选");
 })();
 ```
 
@@ -338,6 +338,8 @@ useDatabase('dbName').then()
   - `indexName` - 索引名称
   - `indexValues` - 索引值数组
 - 返回值：返回一个 Promise 对象，包含删除结果的状态和消息
+
+
 
 
 
