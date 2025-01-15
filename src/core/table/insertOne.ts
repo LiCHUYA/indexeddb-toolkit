@@ -16,13 +16,12 @@ async function insertOne<T>(dbName: string, tableName: string, data: T) {
   }
 
   // 使用指定的数据库
-  const currentDb: any = await useDatabase(dbName)
-  console.log(currentDb)
+  const db = await useDatabase(dbName)
 
   // 返回一个新的Promise
   return new Promise<any>((resolve, reject) => {
     // 开启一个读写事务
-    const transaction = currentDb.result.target.result.transaction([tableName], 'readwrite')
+    const transaction = db.transaction([tableName], 'readwrite')
     const store = transaction.objectStore(tableName)
 
     // 添加数据，自动生成id

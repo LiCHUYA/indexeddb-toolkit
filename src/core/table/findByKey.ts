@@ -32,11 +32,10 @@ async function findByKey(
     if (!tableExist) {
       return ResponseMessages.TB_NOTFOUND(`${tableName} 表不存在`)
     }
-    const database: any = await useDatabase(dbName)
-    let currentDb = database.result.target.result
+    const db = await useDatabase(dbName)
 
     return new Promise<any>((resolve, reject) => {
-      const store = currentDb.transaction(tableName, 'readonly').objectStore(tableName)
+      const store = db.transaction(tableName, 'readonly').objectStore(tableName)
 
       if (isAll) {
         const request = store.getAll()

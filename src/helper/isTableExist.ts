@@ -8,11 +8,10 @@ import { useDatabase } from '../core'
  */
 async function isTableExist(dbName: string, tableName: string): Promise<boolean> {
   try {
-    const database: any = await useDatabase(dbName)
-    // console.log(database)
-    return database.result.target.result.objectStoreNames.contains(tableName)
+    const db = await useDatabase(dbName);
+    return db.objectStoreNames.contains(tableName);
   } catch (error) {
-    return false
+    return false;
   }
 }
 

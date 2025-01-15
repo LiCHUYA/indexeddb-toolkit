@@ -1,89 +1,122 @@
 import ResponseMessages from '../../constant'
-import useDatabase from '../useDatabase'
-import { closeCurrentConnection, getIndexedDBVersion } from '../../helper/index'
-import { isTableExist } from '../../helper'
+import { useDatabase } from '../index'
+import { TableOptions } from './types'
+// import { createObjectStore, createIndexes } from '../../helper'
+import { closeCurrentConnection, closeAllConnections } from '../../helper/index'
 
 /**
  * 创建表
- * @param {string} dbName - 数据库名称。
- * @param {string} tableName - 表名称。
- * @param {any[]} [indexs=['default']] - 索引数组，用于查询时。
- * @returns {Promise<any>} Promise对象，包含创建结果的状态和状态码。
- * @throws {Error} 如果表创建失败，则抛出错误。
- * @description
- * 当不熟悉indexs这个参数的时候,可以理解为每一张表的字段名,我们直接传递['字段1']
- * @example
- * createTable('test','abc',['message','age']).then()
- * 以上代码就是代表在test数据库下创建abc表,表的索引是message和age。
+ * @param {string} dbName - 数据库名称
+ * @param {string} tableName - 表名称
+ * @param {TableOptions} options - 表配置选项
+ * @returns {Promise<any>} 创建结果
  */
 async function createTable(
   dbName: string,
   tableName: string,
-  indexs: any[] = ['default']
+  options: TableOptions = {}
 ): Promise<any> {
-  // 检查数据库名称是否为空
-  if (!dbName) {
-    return ResponseMessages.DBNAME_IS_NULL()
-  }
+  if (!dbName) return ResponseMessages.DBNAME_IS_NULL()
+  if (!tableName) return ResponseMessages.TBNAME_IS_NULL()
 
-  // 检查表名称是否为空
-  if (!tableName) {
-    return ResponseMessages.TBNAME_IS_NULL()
-  }
+  const { keyPath = 'id', autoIncrement = true, indexs = [] } = options
+  const currentVersion = parseInt(localStorage.getItem('dbVersion') || '1', 10)
+  const newVersion = currentVersion + 1
 
   try {
-    // 判断表是否存在
-    const tableExist = await isTableExist(dbName, tableName)
-    console.log(tableExist)
-    if (tableExist) {
-      const message = `${tableName} 表已存在`
-      console.log(ResponseMessages.TB_EXIST({ info: message }))
-      return ResponseMessages.TB_EXIST({ info: message })
-    }
+    // 先尝试关闭所有可能的连接
+    await closeAllConnections()
+    
+    return new Promise((resolve, reject) => {
+      let retryCount = 0
+      const maxRetries = 3
+      const retryDelay = 1000 // 1秒
 
-    // 关闭之前的连接
-    // await closeCurrentConnection(dbName);
-
-    // 获取新的数据库版本号
-    const currentVersion = await getIndexedDBVersion(dbName)
-    const newVersion = Number(currentVersion) + 1
-    localStorage.setItem('dbVersion', newVersion.toString())
-
-    // 返回 Promise 对象，处理表创建
-    return new Promise<any>((resolve, reject) => {
-      const request = window.indexedDB.open(dbName, newVersion)
-
-      request.onerror = (event: any) => {
-        reject(ResponseMessages.OPEN_TB_ERROR(event.target.error))
+      async function handleDatabaseBlocked() {
+        console.warn('Database blocked, attempting to resolve...')
+        
+        try {
+          // 强制关闭所有数据库连接
+          await closeAllConnections()
+          
+          if (retryCount < maxRetries) {
+            retryCount++
+            console.log(`Retrying (${retryCount}/${maxRetries}) in ${retryDelay}ms...`)
+            setTimeout(() => openDatabase({ resolve, reject }), retryDelay)
+          } else {
+            reject(ResponseMessages.OPEN_TB_ERROR(
+              new Error('Database blocked after maximum retries') as any
+            ))
+          }
+        } catch (error) {
+          console.error('Error handling blocked database:', error)
+          reject(ResponseMessages.OPEN_TB_ERROR(error))
+        }
       }
 
-      request.onupgradeneeded = (event: any) => {
+      function handleUpgradeNeeded(event: IDBVersionChangeEvent) {
         try {
-          const db = event.target.result
-          const store = db.createObjectStore(tableName, { keyPath: 'id' })
-
-          if (indexs && indexs.length) {
-            indexs.forEach((index: string) => {
-              store.createIndex(index, index, { unique: false })
-            })
+          const db = (event.target as IDBOpenDBRequest).result
+          
+          if (db.objectStoreNames.contains(tableName)) {
+            return resolve(ResponseMessages.TB_EXIST({ 
+              info: `${tableName} 表已存在` 
+            }))
           }
 
+          const store = createObjectStore(db, tableName, { keyPath, autoIncrement })
+          createIndexes(store, indexs, keyPath)
+
           store.transaction.oncomplete = () => {
-            console.log(ResponseMessages.TB_CREATE_SUCCESS())
+            localStorage.setItem('dbVersion', newVersion.toString())
+            db.close() // 确保关闭连接
             resolve(ResponseMessages.TB_CREATE_SUCCESS())
+          }
+
+          store.transaction.onerror = (error) => {
+            db.close()
+            reject(ResponseMessages.TB_CREATE_ERROR(error))
           }
         } catch (error) {
           reject(ResponseMessages.BASIC_ERROR(error))
         }
       }
 
-      request.onsuccess = () => {
-        // --newVersion;
-        resolve(ResponseMessages.TB_CREATE_SUCCESS())
+      async function openDatabase(conn: { resolve: Function, reject: Function }) {
+        try {
+          const request = indexedDB.open(dbName, newVersion)
+          
+          request.onblocked = handleDatabaseBlocked
+          request.onupgradeneeded = handleUpgradeNeeded
+          
+          request.onsuccess = (event) => {
+            const db = (event.target as IDBOpenDBRequest).result
+            db.close() // 操作完成后立即关闭
+            conn.resolve(ResponseMessages.TB_CREATE_SUCCESS())
+          }
+
+          request.onerror = async (event) => {
+            const error = (event.target as IDBOpenDBRequest).error
+            if (error?.name === 'VersionError' && retryCount < maxRetries) {
+              retryCount++
+              await closeAllConnections()
+              setTimeout(() => openDatabase(conn), retryDelay)
+            } else {
+              conn.reject(ResponseMessages.OPEN_TB_ERROR(error as any))
+            }
+          }
+        } catch (error) {
+          conn.reject(ResponseMessages.BASIC_ERROR(error))
+        }
       }
+
+      // 开始创建表
+      openDatabase({ resolve, reject })
     })
+
   } catch (error) {
-    return ResponseMessages.BASIC_ERROR(error.message)
+    console.error('创建表失败:', error)
+    return ResponseMessages.TB_CREATE_ERROR(error)
   }
 }
 

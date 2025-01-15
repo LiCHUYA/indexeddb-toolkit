@@ -26,11 +26,10 @@ async function deleteManyByPK(dbName: string, tableName: string, keys: any[]): P
   }
 
   try {
-    const database: any = await useDatabase(dbName)
-    const currentDb = database.result.target.result
+    const db = await useDatabase(dbName)
 
     return new Promise<any>((resolve, reject) => {
-      const store = currentDb.transaction([tableName], 'readwrite').objectStore(tableName)
+      const store = db.transaction([tableName], 'readwrite').objectStore(tableName)
 
       const deletePromises = keys.map(key => {
         return new Promise<void>((resolve, reject) => {

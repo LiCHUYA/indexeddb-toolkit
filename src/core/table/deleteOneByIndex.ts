@@ -35,11 +35,10 @@ async function deleteOneByIndex(
   }
 
   try {
-    const database: any = await useDatabase(dbName)
-    let currentDb = database.result.target.result
+    const db = await useDatabase(dbName)
 
     return new Promise<any>((resolve, reject) => {
-      const transaction = currentDb.transaction([tableName], 'readwrite')
+      const transaction = db.transaction([tableName], 'readwrite')
       const store = transaction.objectStore(tableName)
       const index = store.index(indexName)
 
@@ -55,7 +54,7 @@ async function deleteOneByIndex(
             reject(ResponseMessages.TB_DELETE_BY_INDEX_ERROR(event))
           }
         } else {
-          resolve(ResponseMessages.TB_DELETE_BY_INDEX_SUCCESS(null)) // No record found
+          resolve(ResponseMessages.TB_DELETE_BY_INDEX_SUCCESS(null))
         }
       }
 

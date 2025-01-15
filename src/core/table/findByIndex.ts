@@ -35,17 +35,16 @@ async function findByIndex(
   try {
     const tableExist = await isTableExist(dbName, tableName)
     if (!tableExist) {
-      // console.log(`${tableName} 表不存在`);
       return ResponseMessages.TB_EXIST(`${tableName} 表不存在`)
     }
-    const database: any = await useDatabase(dbName)
-    let currentDb = database.result.target.result
+    const db = await useDatabase(dbName)
+
     return new Promise<any>((resolve, reject) => {
-      const store = currentDb.transaction(tableName, 'readonly').objectStore(tableName)
+      const store = db.transaction(tableName, 'readonly').objectStore(tableName)
 
       if (!Array.from(store.indexNames).includes(indexName))
         reject(ResponseMessages.TB_INDEX_ERROR())
-      // console.log(!Array.from(store.indexNames).includes(indexName))
+
       const index = store.index(indexName)
 
       if (isAll) {
@@ -68,7 +67,6 @@ async function findByIndex(
       } else {
         const request = index.get(indexValue)
         request.onsuccess = (event: any) => {
-          console.log(event)
           const result = event.target.result
           resolve(ResponseMessages.TB_SELECT_BY_INDEX_SUCCESS(result))
         }

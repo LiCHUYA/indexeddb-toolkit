@@ -18,23 +18,25 @@ async function deleteOneByPk(dbName: string, tableName: string, id: number) {
   }
   const tableExist = await isTableExist(dbName, tableName)
   if (!tableExist) {
-    // console.log(`${tableName} 表不存在`);
     return ResponseMessages.TB_EXIST(`${tableName} 表不存在`)
   }
-  const database: any = await useDatabase(dbName)
-  let currentDb = database.result.target.result
 
-  return new Promise<any>((resolve, reject) => {
-    const store = currentDb.transaction([tableName], 'readwrite').objectStore(tableName)
+  try {
+    const db = await useDatabase(dbName)
+    return new Promise<any>((resolve, reject) => {
+      const store = db.transaction([tableName], 'readwrite').objectStore(tableName)
 
-    const request = store.delete(id)
-    request.onsuccess = (event: any) => {
-      resolve(ResponseMessages.TB_DELETE_BY_PK_SUCCESS(event))
-    }
-    request.onerror = (event: any) => {
-      reject(ResponseMessages.TB_DELETE_BY_PK_ERROR(event))
-    }
-  })
+      const request = store.delete(id)
+      request.onsuccess = (event: any) => {
+        resolve(ResponseMessages.TB_DELETE_BY_PK_SUCCESS(event))
+      }
+      request.onerror = (event: any) => {
+        reject(ResponseMessages.TB_DELETE_BY_PK_ERROR(event))
+      }
+    })
+  } catch (error) {
+    return ResponseMessages.BASIC_ERROR(error)
+  }
 }
 
 export default deleteOneByPk

@@ -1,58 +1,70 @@
 import ResponseMessages from '../constant/index'
 import { getIndexedDBVersion } from '../helper/index'
 
+interface DatabaseResponse {
+  type: 'success' | 'error';
+  data: IDBDatabase;
+  message: string;
+}
+
 /**
  * 使用指定的数据库
  *
  * @param {string} dbName - 数据库名称
- * @returns {Promise<any>} Promise对象，包含当前数据库实例或错误信息
- *
- * @example
- * useDatabase('myDatabase')
- *   .then(response => {
- *     console.log('Database opened successfully', response);
- *   })
- *   .catch(error => {
- *     console.error('Error opening database', error);
- *   });
+ * @returns {Promise<IDBDatabase>} Promise对象，返回数据库实例
+ * @throws {Error} 当数据库操作失败时抛出错误
  */
-function useDatabase(dbName: string): any {
+function useDatabase(dbName: string): Promise<IDBDatabase> {
   if (!dbName) {
-    return ResponseMessages.DBNAME_IS_NULL()
+    throw new Error(ResponseMessages.DBNAME_IS_NULL().message);
   }
 
-  const request = window.indexedDB.open(dbName)
-
   return new Promise((resolve, reject) => {
-    request.onsuccess = (event: any) => {
-      resolve(ResponseMessages.OPEN_DB_SUCCESS(event))
-    }
+    const handleSuccess = (event: IDBVersionChangeEvent | Event) => {
+      const target = event.target as IDBOpenDBRequest;
+      resolve(target.result);
+    };
 
-    request.onerror = async (event: any) => {
+    const handleVersionError = async (dbName: string, error: Error) => {
       try {
-        const message = event.target.error.name
-        if (message === 'VersionError') {
-          const version = await getIndexedDBVersion(dbName)
-          const request = window.indexedDB.open(dbName, version)
-          request.onsuccess = (event: any) => {
-            resolve(ResponseMessages.OPEN_DB_SUCCESS(event))
-          }
-        } else {
-          resolve(ResponseMessages.OPEN_DB_ERROR(event.target.error))
+        // 获取已存在的数据库连接
+        const existingDB = (error.target as IDBOpenDBRequest)?.result;
+        if (existingDB) {
+          // 如果有现有连接，直接使用它
+          resolve(existingDB);
+          return;
         }
-      } catch (error) {
-        reject(ResponseMessages.BASIC_ERROR(event.target.error))
-      }
-    }
 
-    request.onupgradeneeded = (event: any) => {
-      try {
-        resolve(ResponseMessages.OPEN_DB_SUCCESS(event))
+        // 只有在确实需要时才获取新版本
+        const version = await getIndexedDBVersion(dbName);
+        const newRequest = window.indexedDB.open(dbName, version);
+        newRequest.onsuccess = handleSuccess;
+        newRequest.onerror = (event: Event) => {
+          const target = event.target as IDBOpenDBRequest;
+          reject(target.error);
+        };
       } catch (error) {
-        reject(ResponseMessages.BASIC_ERROR(event.target.error))
+        reject(error);
       }
-    }
-  })
+    };
+
+    const request = window.indexedDB.open(dbName);
+
+    request.onsuccess = handleSuccess;
+
+    request.onerror = (event: Event) => {
+      const target = event.target as IDBOpenDBRequest;
+      const error = target.error;
+      
+      if (error?.name === 'VersionError') {
+        handleVersionError(dbName, error);
+      } else {
+        reject(error);
+      }
+    };
+
+    request.onupgradeneeded = handleSuccess;
+  });
 }
 
 export default useDatabase
