@@ -4,6 +4,19 @@ import { TableOptions } from './types'
 // import { createObjectStore, createIndexes } from '../../helper'
 import { closeCurrentConnection, closeAllConnections } from '../../helper/index'
 
+interface FieldConfig {
+  name: string;           // 字段名
+  unique?: boolean;       // 是否唯一索引，默认 false
+  multiEntry?: boolean;   // 是否多值索引，默认 false
+}
+
+interface TableOptions {
+  primaryKey?: string;    // 主键字段，默认 'id'
+  autoIncrement?: boolean;// 是否自增，默认 true
+  version?: number;       // 表版本号
+  fields: string[] | FieldConfig[];  // 字段定义，可以是字符串数组或配置对象数组
+}
+
 /**
  * 创建表
  * @param {string} dbName - 数据库名称
@@ -55,30 +68,51 @@ async function createTable(
       }
 
       function handleUpgradeNeeded(event: IDBVersionChangeEvent) {
+        const db = (event.target as IDBOpenDBRequest).result;
+        logger.debug(`Creating table ${tableName} in database ${dbName}`);
+
         try {
-          const db = (event.target as IDBOpenDBRequest).result
-          
-          if (db.objectStoreNames.contains(tableName)) {
-            return resolve(ResponseMessages.TB_EXIST({ 
-              info: `${tableName} 表已存在` 
-            }))
-          }
+          // 确定主键
+          const keyPath = options.primaryKey || 'id';
 
-          const store = createObjectStore(db, tableName, { keyPath, autoIncrement })
-          createIndexes(store, indexs, keyPath)
+          // 创建表
+          const store = db.createObjectStore(tableName, {
+            keyPath: keyPath,
+            autoIncrement: options.autoIncrement ?? true
+          });
 
-          store.transaction.oncomplete = () => {
-            localStorage.setItem('dbVersion', newVersion.toString())
-            db.close() // 确保关闭连接
-            resolve(ResponseMessages.TB_CREATE_SUCCESS())
-          }
+          // 处理字段定义
+          const fields = options.fields.map(field => {
+            if (typeof field === 'string') {
+              // 如果是字符串，转换为默认配置的字段
+              return {
+                name: field,
+                unique: false,
+                multiEntry: true
+              };
+            }
+            // 如果是配置对象，使用提供的配置
+            return {
+              name: field.name,
+              unique: field.unique ?? false,
+              multiEntry: field.multiEntry ?? true
+            };
+          });
 
-          store.transaction.onerror = (error) => {
-            db.close()
-            reject(ResponseMessages.TB_CREATE_ERROR(error))
-          }
+          // 创建索引
+          fields.forEach(field => {
+            if (field.name !== keyPath) {  // 跳过主键字段
+              store.createIndex(field.name, field.name, {
+                unique: field.unique,
+                multiEntry: field.multiEntry
+              });
+            }
+          });
+
+          logger.debug(`Table ${tableName} created successfully`);
         } catch (error) {
-          reject(ResponseMessages.BASIC_ERROR(error))
+          logger.error(`Error creating table ${tableName}:`, error);
+          reject(error);
         }
       }
 
