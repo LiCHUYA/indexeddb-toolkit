@@ -1,9 +1,9 @@
 import ResponseMessages from '../../constant'
 import { useDatabase } from '../index'
-import { TableOptions } from './types'
+// import { TableOptions } from './types'
 // import { createObjectStore, createIndexes } from '../../helper'
 import { closeCurrentConnection, closeAllConnections } from '../../helper/index'
-
+import {logger} from '../../utils/logger'
 interface FieldConfig {
   name: string;           // 字段名
   unique?: boolean;       // 是否唯一索引，默认 false
@@ -27,7 +27,7 @@ interface TableOptions {
 async function createTable(
   dbName: string,
   tableName: string,
-  options: TableOptions = {}
+  options: any = {}
 ): Promise<any> {
   if (!dbName) return ResponseMessages.DBNAME_IS_NULL()
   if (!tableName) return ResponseMessages.TBNAME_IS_NULL()

@@ -30,7 +30,7 @@ async function findByKey(
   try {
     const tableExist = await isTableExist(dbName, tableName)
     if (!tableExist) {
-      return ResponseMessages.TB_NOTFOUND(`${tableName} 表不存在`)
+      return ResponseMessages.TB_NOTFOUND()
     }
     const db = await useDatabase(dbName)
 

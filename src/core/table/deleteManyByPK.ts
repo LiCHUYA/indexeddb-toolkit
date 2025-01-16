@@ -22,7 +22,7 @@ async function deleteManyByPK(dbName: string, tableName: string, keys: any[]): P
 
   const tableExist = await isTableExist(dbName, tableName)
   if (!tableExist) {
-    return ResponseMessages.TB_NOTFOUND(`${tableName} 表不存在`)
+    return ResponseMessages.TB_NOTFOUND()
   }
 
   try {
@@ -36,17 +36,17 @@ async function deleteManyByPK(dbName: string, tableName: string, keys: any[]): P
           const request = store.delete(key)
           request.onsuccess = () => resolve()
           request.onerror = (event: any) =>
-            reject(ResponseMessages.TB_DELETE_RECORDS_BY_KEYS_ERROR(event.target.error))
+            reject(ResponseMessages.TB_DELETE_BY_PK_ERROR(event.target.error))
         })
       })
 
       Promise.all(deletePromises)
         .then(() =>
           resolve(
-            ResponseMessages.TB_DELETE_RECORDS_BY_KEYS_SUCCESS(`${keys.length} 条数据删除成功`)
+            ResponseMessages.TB_DELETE_BY_PK_SUCCESS(`${keys.length} 条数据删除成功`)
           )
         )
-        .catch(error => reject(ResponseMessages.TB_DELETE_RECORDS_BY_KEYS_ERROR(error)))
+        .catch(error => reject(ResponseMessages.TB_DELETE_BY_PK_ERROR(error)))
     })
   } catch (error) {
     return ResponseMessages.BASIC_ERROR(error)

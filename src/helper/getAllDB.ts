@@ -10,7 +10,7 @@ async function getAllDB(): Promise<any> {
     if (Array.isArray(res)) {
       return ResponseMessages.GET_ALL_DBS_SUCCESS(res)
     } else {
-      return ResponseMessages.DB_NOTFOUNT()
+      return ResponseMessages.DB_NOTFOUND()
     }
   } catch (error) {
     return ResponseMessages.BASIC_ERROR(error)

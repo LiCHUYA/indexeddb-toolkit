@@ -27,7 +27,7 @@ function deleteTable(dbName: string, tableName: string): Promise<any> {
 
       deleteRequest.onsuccess = (event: any) => {
         event.target.result.close()
-        resolve(ResponseMessages.TB_DELETE_SUCCESS(`${tableName} 表删除成功`))
+        resolve(ResponseMessages.TB_DELETE_SUCCESS(`${tableName} 表删除成功`) as any)
       }
 
       deleteRequest.onerror = (event: any) => {

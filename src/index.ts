@@ -2,13 +2,17 @@
  * @fileoverview 主入口文件
  */
 
+// 导出核心功能
 export {
   useDatabase,
-  getTableNames,
+  deleteTable,
   deleteDatabase,
   deleteAllDatabases,
-  deleteAllTables,
-  deleteTable,
+  closeAllConnections
+} from './core'
+
+// 导出表操作相关
+export {
   createTable,
   insertOne,
   insertMany,
@@ -20,22 +24,31 @@ export {
   deleteOneByPk,
   deleteOneByIndex,
   deleteManyByPK,
-  deleteManyByIndex,
+  deleteManyByIndex
+} from './core/'
+
+// 导出文件存储相关
+export {
   saveFilesToDB,
   getFileFromDB,
-  revokeFileUrl,
+  revokeFileUrl
+} from './core/table/fileStorage'
+
+// 导出查询相关
+export {
   createQuery,
   Query,
   QueryBuilder,
-  QueryMapper,
+  QueryMapper
+} from './core/query'
+
+// 导出数据传输相关
+export {
   createTransfer,
   DataTransfer
-} from './core'
+} from './core/transfer'
 
-// 默认导出
-export { default } from './core'
-
-// 重新导出所有类型
+// 导出类型定义
 export type {
   QueryConfig,
   WhereConfig,
@@ -50,3 +63,13 @@ export type {
   ImportOptions,
   TransferResult
 } from './core/transfer/types'
+
+// 默认导出所有功能
+export default {
+  useDatabase,
+  deleteTable,
+  deleteDatabase,
+  deleteAllDatabases,
+  closeAllConnections,
+  // ... 其他导出的功能
+}

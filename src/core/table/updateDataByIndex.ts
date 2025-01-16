@@ -30,7 +30,7 @@ async function updateDataByIndex<T extends { [key: string]: any }>(
 
   const tableExist = await isTableExist(dbName, tbName);
   if (!tableExist) {
-    return ResponseMessages.TB_NOTFOUND(`${tbName} 表不存在`);
+    return ResponseMessages.TB_NOTFOUND();
   }
 
   try {

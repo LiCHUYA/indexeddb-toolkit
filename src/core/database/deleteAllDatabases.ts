@@ -16,7 +16,7 @@ async function deleteAllDatabases(): Promise<any> {
       await Promise.all(deletePromises)
       return ResponseMessages.DEL_ALL_DB_SUCCESS()
     } else {
-      return ResponseMessages.DB_NOTFOUNT()
+      return ResponseMessages.DB_NOTFOUND()
     }
   } catch (error) {
     return ResponseMessages.BASIC_ERROR(error)

@@ -14,7 +14,7 @@ function deleteDatabase(dbName: string): Promise<any> {
     }
 
     request.onerror = (event: any) => {
-      reject(ResponseMessages.DEL_DB_ERROR(event.target.error))
+      reject(ResponseMessages.DB_DELETE_ERROR(event.target.error))
     }
   })
 }
