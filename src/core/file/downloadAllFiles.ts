@@ -1,6 +1,7 @@
 import ResponseMessages from '../../constant'
 import getAllFiles from './getAllFiles'
 import { logger } from '../../utils/logger'
+import JSZip from 'jszip'
 
 interface DownloadAllOptions {
   type?: 'raw' | 'handled'  // 下载原始文件还是处理后的文件
@@ -52,10 +53,9 @@ async function downloadAllFiles(
     }
 
     // 多个文件，使用 JSZip 打包下载
-    const JSZip = (await import('jszip')).default 
     const zip = new JSZip()
 
-    files.forEach(fileData => {
+    files.forEach((fileData: any) => {
       const fileInfo = options.type === 'handled' ? fileData.handleFileInfo : fileData.rawFileInfo
       const file = fileInfo.file || fileInfo.blob
       if (file) {

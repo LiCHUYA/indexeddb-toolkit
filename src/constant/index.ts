@@ -5,8 +5,8 @@ const ResponseMessages = {
   // 成功
   OPEN_DB_SUCCESS: (data: {}) => returnFormater(200, `数据库打开成功`, data),
   GET_TABLES_SUCCESS: (data = []) => returnFormater(200, '获取指定数据库中的表数量成功', data),
-  GET_ALL_DBS_SUCCESS: res => returnFormater(200, '获取所有数据库成功', res),
-  DEL_DB_SUCCESS: info => returnFormater(200, '删除数据库成功', info),
+  GET_ALL_DBS_SUCCESS: (res: any) => returnFormater(200, '获取所有数据库成功', res),
+  DEL_DB_SUCCESS: (info: any) => returnFormater(200, '删除数据库成功', info),
   DEL_ALL_DB_SUCCESS: () => returnFormater(200, '删除所有数据库成功'),
   
   // 表操作相关
@@ -20,12 +20,12 @@ const ResponseMessages = {
     timestamp: Date.now()
   }),
 
-  TB_INSERT_MANY_SUCCESS: info => returnFormater(200, '数据批量插入成功', info),
+  TB_INSERT_MANY_SUCCESS: (info: any) => returnFormater(200, '数据批量插入成功', info),
   TB_SELECT_SUCCESS: (data?: any) => returnFormater(200, '数据查询成功', data),
-  TB_DELETE_SUCCESS: info => returnFormater(200, '表删除成功', info),
-  TB_DELETE_ERROR: info => returnFormater(408, '表删除失败', info),
+  TB_DELETE_SUCCESS: (info: any) => returnFormater(200, '表删除成功', info),
+  TB_DELETE_ERROR: (info: any) => returnFormater(408, '表删除失败', info),
   TB_DELETE_ALL_SUCCESS: () => returnFormater(200, '所有表删除成功'),
-  TB_DELETE_ALL_ERROR: info => returnFormater(409, '所有表删除失败', info),
+  TB_DELETE_ALL_ERROR: (info: any) => returnFormater(409, '所有表删除失败', info),
   // 错误相关
   DBNAME_IS_NULL: () => returnFormater(401, '数据库名称不能为空'),
   TBNAME_IS_NULL: () => returnFormater(402, '表名不能为空'),
@@ -40,7 +40,7 @@ const ResponseMessages = {
     error: error instanceof Error ? error.message : String(error)
   }),
 
-  TB_NOTFOUND: () => returnFormater(411, '表不存在'),
+  TB_NOTFOUND: (message?: string) => returnFormater(411, message || '表不存在'),
   
   TB_INSERT_ERROR: (error: any) => returnFormater(412, '数据插入失败', {
     error: error instanceof Error ? error.message : String(error)
@@ -130,7 +130,16 @@ const ResponseMessages = {
     success: false,
     code: 40001,
     message: 'File is required'
-  })
+  }),
+
+  TB_SELECT_BY_KEY_SUCCESS: (data: any) => returnFormater(200, '通过主键查询数据成功', data),
+  TB_SELECT_BY_KEY_ERROR: (error: any) => returnFormater(425, '通过主键查询数据失败', error),
+
+  TB_DATA_UPDATE_BY_INDEX_SUCCESS: (data: any) => returnFormater(200, '通过索引更新数据成功', data),
+  TB_DATA_UPDATE_BY_INDEX_ERROR: (error: any) => returnFormater(426, '通过索引更新数据失败', error),
+
+  TB_DATA_UPDATE_BY_PRIMARY_KEY_SUCCESS: (data: any) => returnFormater(200, '通过主键更新数据成功', data),
+  TB_DATA_UPDATE_BY_PRIMARY_KEY_ERROR: (error: any) => returnFormater(427, '通过主键更新数据失败', error)
 };
 
 export default ResponseMessages;

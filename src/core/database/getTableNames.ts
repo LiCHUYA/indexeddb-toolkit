@@ -22,7 +22,7 @@ async function getTableNames(dbName: string): Promise<any> {
     if (objectStoreNames.length === 0) {
       return ResponseMessages.GET_TABLES_SUCCESS();
     } else {
-      return ResponseMessages.GET_TABLES_SUCCESS(objectStoreNames);
+      return ResponseMessages.GET_TABLES_SUCCESS(objectStoreNames as any);
     }
   } catch (error) {
     return ResponseMessages.BASIC_ERROR(error);

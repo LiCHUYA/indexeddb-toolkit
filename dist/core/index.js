@@ -1,0 +1,20 @@
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.deleteAllTables = exports.getTableNames = exports.closeAllConnections = exports.deleteAllDatabases = exports.deleteDatabase = exports.deleteTable = exports.useDatabase = void 0;
+var tslib_1 = require("tslib");
+var useDatabase_1 = require("./useDatabase");
+Object.defineProperty(exports, "useDatabase", { enumerable: true, get: function () { return tslib_1.__importDefault(useDatabase_1).default; } });
+var deleteTable_1 = require("./database/deleteTable");
+Object.defineProperty(exports, "deleteTable", { enumerable: true, get: function () { return tslib_1.__importDefault(deleteTable_1).default; } });
+var deleteDatabase_1 = require("./database/deleteDatabase");
+Object.defineProperty(exports, "deleteDatabase", { enumerable: true, get: function () { return tslib_1.__importDefault(deleteDatabase_1).default; } });
+var deleteAllDatabases_1 = require("./database/deleteAllDatabases");
+Object.defineProperty(exports, "deleteAllDatabases", { enumerable: true, get: function () { return tslib_1.__importDefault(deleteAllDatabases_1).default; } });
+var closeAllConnections_1 = require("./database/closeAllConnections");
+Object.defineProperty(exports, "closeAllConnections", { enumerable: true, get: function () { return tslib_1.__importDefault(closeAllConnections_1).default; } });
+var getTableNames_1 = require("./database/getTableNames");
+Object.defineProperty(exports, "getTableNames", { enumerable: true, get: function () { return tslib_1.__importDefault(getTableNames_1).default; } });
+var deleteAllTables_1 = require("./database/deleteAllTables");
+Object.defineProperty(exports, "deleteAllTables", { enumerable: true, get: function () { return tslib_1.__importDefault(deleteAllTables_1).default; } });
+tslib_1.__exportStar(require("./table"), exports);
+//# sourceMappingURL=index.js.map

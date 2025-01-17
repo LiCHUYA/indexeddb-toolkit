@@ -1,0 +1,12 @@
+export { default as createTable } from './createTable';
+export { default as insertOne } from './insertOne';
+export { default as insertMany } from './insertMany';
+export { default as findDBData } from './findDBData';
+export { default as findByKey } from './findByKey';
+export { default as findByIndex } from './findByIndex';
+export { default as deleteOneByPk } from './deleteOneByPk';
+export { default as deleteOneByIndex } from './deleteOneByIndex';
+export { default as deleteManyByPK } from './deleteManyByPK';
+export { default as deleteManyByIndex } from './deleteManyByIndex';
+export { default as updateDataByPrimaryKey } from './updateDataByPrimaryKey';
+export { default as updateDataByIndex } from './updateDataByIndex';

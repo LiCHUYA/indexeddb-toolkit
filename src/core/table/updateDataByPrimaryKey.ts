@@ -25,7 +25,7 @@ async function updateDataByPrimaryKey<T extends { [key: string]: any }>(
 
   const tableExist = await isTableExist(dbName, tbName);
   if (!tableExist) {
-    return ResponseMessages.TB_NOTFOUND(`${tbName} 表不存在`);
+    return ResponseMessages.TB_NOTFOUND(`${tbName} 表不存在` as any);
   }
 
   try {
@@ -44,11 +44,11 @@ async function updateDataByPrimaryKey<T extends { [key: string]: any }>(
           const updateRequest = store.put(updatedItem);
 
           updateRequest.onsuccess = (event: Event) => {
-            resolve(ResponseMessages.TB_DATA_UPDATE_BY_PK_SUCCESS(event));
+            resolve(ResponseMessages.TB_DATA_UPDATE_BY_PRIMARY_KEY_SUCCESS(event));
           };
 
           updateRequest.onerror = (event: Event) => {
-            reject(ResponseMessages.TB_DATA_UPDATE_BY_PK_ERROR(event));
+            reject(ResponseMessages.TB_DATA_UPDATE_BY_PRIMARY_KEY_ERROR(event));
           };
         } else {
           reject(ResponseMessages.DATA_ERROR('找不到数据'));
@@ -56,7 +56,7 @@ async function updateDataByPrimaryKey<T extends { [key: string]: any }>(
       };
 
       request.onerror = (event: Event) => {
-        reject(ResponseMessages.TB_DATA_UPDATE_BY_PK_ERROR(event));
+        reject(ResponseMessages.TB_DATA_UPDATE_BY_PRIMARY_KEY_ERROR(event));
       };
     });
   } catch (error) {

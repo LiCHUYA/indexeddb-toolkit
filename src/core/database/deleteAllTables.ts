@@ -1,4 +1,4 @@
-import { useDatabase } from '../index'
+import { useDatabase,deleteTable } from '../index'
 
 /**
  * 删除所有表
@@ -11,7 +11,7 @@ async function deleteAllTables(dbName: string): Promise<any> {
   const objectStoreNames = Array.from(currentDb?.objectStoreNames ?? [])
 
   const deletePromises = objectStoreNames.map((tableName: any) =>
-    this.deleteTable(dbName, tableName)
+    deleteTable(dbName, tableName)
   )
 
   return Promise.all(deletePromises)

@@ -1,6 +1,6 @@
 import { useDatabase } from '../index'
 import ResponseMessages from '../../constant'
-import { InsertManyResult } from './types'
+// import { any } from './types'
 
 /**
  * 批量插入数据
@@ -8,7 +8,7 @@ import { InsertManyResult } from './types'
  * @param tableName 表名
  * @param data 要插入的数据数组
  * @param options 插入选项
- * @returns Promise<InsertManyResult>
+ * @returns Promise<any>
  */
 export async function insertMany(
   dbName: string,
@@ -18,8 +18,8 @@ export async function insertMany(
     skipDuplicates?: boolean;  // 是否跳过重复键
     updateDuplicates?: boolean;  // 是否更新重复键
   } = {}
-): Promise<InsertManyResult> {
-  const result: InsertManyResult = {
+): Promise<any> {
+  const result: any = {
     success: true,
     inserted: 0,
     failed: 0,
@@ -92,7 +92,7 @@ export async function insertMany(
     return ResponseMessages.TB_INSERT_SUCCESS(result)
   } catch (error) {
     result.success = false
-    return ResponseMessages.TB_INSERT_ERROR(error, result)
+    return ResponseMessages.TB_INSERT_ERROR(error)
   }
 }
 
