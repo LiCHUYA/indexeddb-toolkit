@@ -1,75 +1,49 @@
-/**
- * @fileoverview 主入口文件
- */
-
-// 导出核心功能
+// 从 core/index.ts 导入所有核心功能
 export {
-  useDatabase,
-  deleteTable,
-  deleteDatabase,
-  deleteAllDatabases,
-  closeAllConnections
-} from './core'
-
-// 导出表操作相关
-export {
-  createTable,
-  insertOne,
-  insertMany,
-  findDBData,
-  updateDataByPrimaryKey,
-  updateDataByIndex,
-  findByKey,
-  findByIndex,
-  deleteOneByPk,
-  deleteOneByIndex,
-  deleteManyByPK,
-  deleteManyByIndex
-} from './core/'
-
-// 导出文件存储相关
-export {
-  saveFilesToDB,
-  getFileFromDB,
-  revokeFileUrl
-} from './core/table/fileStorage'
-
-// 导出查询相关
-export {
-  createQuery,
-  Query,
-  QueryBuilder,
-  QueryMapper
-} from './core/query'
-
-// 导出数据传输相关
-export {
-  createTransfer,
-  DataTransfer
-} from './core/transfer'
-
-// 导出类型定义
-export type {
-  QueryConfig,
-  WhereConfig,
-  OrderConfig,
-  ProgressInfo,
-  QueryOptions,
-  WhereCondition
-} from './core/query/types'
-
-export type {
-  ExportOptions,
-  ImportOptions,
-  TransferResult
-} from './core/transfer/types'
-
-// 默认导出所有功能
-export default {
   useDatabase,
   deleteTable,
   deleteDatabase,
   deleteAllDatabases,
   closeAllConnections,
-  // ... 其他导出的功能
-}
+  getTableNames,
+  deleteAllTables,
+  // 表操作
+  createTable,
+  insertOne,
+  insertMany,
+  findDBData,
+  findByKey,
+  findByIndex,
+  deleteOneByPk,
+  deleteOneByIndex,
+  deleteManyByPK,
+  deleteManyByIndex,
+  updateDataByPrimaryKey,
+  updateDataByIndex
+} from './core'
+
+// 从 core/query 导入查询功能
+export {  createQuery } from './core/query/createQuery'
+
+// 从 core/file 导入文件操作
+export {
+  saveFilesToDB,
+  getFileFromDB,
+  getAllFiles,
+  downloadFileFromDB,
+  downloadAllFiles,
+  revokeFileUrl
+} from './core/file'
+
+// 从 core/file/utils 导入文件工具函数
+export {
+  generateFileShortId,
+  createFileDownloadToken
+} from './core/file/utils'
+
+// 从 core/migration 导入数据迁移功能
+export { default as migrateData } from './core/migration/migrateData'
+
+// 从 core/json 导入 JSON 导入导出功能
+export { default as exportToJson } from './core/json/exportToJson'
+export { default as importFromJson } from './core/json/importFromJson' 

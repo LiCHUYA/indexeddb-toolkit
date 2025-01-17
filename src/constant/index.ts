@@ -34,7 +34,8 @@ const ResponseMessages = {
   DB_NOTFOUND: () => returnFormater(406, '数据库不存在'),
   DB_DELETE_ERROR: (error: Response) => returnFormater(407, '数据库删除失败', error),
   TB_EXIST: (tableName: string) => returnFormater(406, `表 ${tableName} 已存在`, { tableName }),
-  
+  JSON_IMPORT_SUCCESS: (data: any) => returnFormater(200, '数据导入成功', data),
+  JSON_IMPORT_ERROR: (error: any) => returnFormater(412, '数据导入失败', error),
   TB_CREATE_ERROR: (error: any) => returnFormater(407, '表创建失败', {
     error: error instanceof Error ? error.message : String(error)
   }),
@@ -44,7 +45,8 @@ const ResponseMessages = {
   TB_INSERT_ERROR: (error: any) => returnFormater(412, '数据插入失败', {
     error: error instanceof Error ? error.message : String(error)
   }),
-
+  JSON_EXPORT_SUCCESS: (data: any) => returnFormater(200, '数据导出成功', data),
+  JSON_EXPORT_ERROR: (error: any) => returnFormater(412, '数据导出失败', error),
   // ... 其他消息保持 returnFormater 格式
   TB_INSERT_MANY_ERROR: (error: Response) => returnFormater(413, '数据批量插入失败', error),
   INSERT_DATA_ERROR: (data: Array<any>) => returnFormater(414, '数据格式不正确', data),
@@ -73,6 +75,62 @@ const ResponseMessages = {
   TB_SELECT_BY_INDEX_ERROR: (error: any) => returnFormater(423, '通过索引查询数据失败', error),
   TB_DELETE_RECORDS_BY_KEYS_SUCCESS: (info: any) => returnFormater(200, '批量删除记录成功', info),
   TB_DELETE_RECORDS_BY_KEYS_ERROR: (error: any) => returnFormater(424, '批量删除记录失败', error),
+
+  // 添加数据迁移相关的消息
+  TB_MIGRATE_SUCCESS: (data: any) => ({
+    code: 200,
+    message: '数据迁移成功',
+    result: data
+  }),
+
+  TB_MIGRATE_ERROR: (error: any) => ({
+    code: 430,
+    message: '数据迁移失败',
+    result: error
+  }),
+
+  // 添加文件存储相关的消息
+  FILE_SAVE_SUCCESS: (data: any) => ({
+    code: 200, 
+    message: '文件保存成功',
+    result: data
+  }),
+
+  FILE_SAVE_ERROR: (error: any) => ({
+    code: 436,
+    message: '文件保存失败',
+    result: error
+  }),
+
+  FILE_GET_SUCCESS: (data: any) => ({
+    code: 200,
+    message: '获取文件成功', 
+    result: data
+  }),
+
+  FILE_GET_ERROR: (error: any) => ({
+    code: 437,
+    message: '获取文件失败',
+    result: error
+  }),
+
+  FILE_DELETE_SUCCESS: (data: any) => ({
+    code: 200,
+    message: '删除文件成功',
+    result: data
+  }),
+
+  FILE_DELETE_ERROR: (error: any) => ({
+    code: 438,
+    message: '删除文件失败', 
+    result: error
+  }),
+
+  FILE_IS_NULL: () => ({
+    success: false,
+    code: 40001,
+    message: 'File is required'
+  })
 };
 
 export default ResponseMessages;

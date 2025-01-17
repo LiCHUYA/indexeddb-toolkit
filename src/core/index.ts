@@ -1,19 +1,9 @@
-/**
- * @fileoverview 核心功能模块的统一导出
- */
+export { default as useDatabase } from './useDatabase'
+export { default as deleteTable } from './database/deleteTable'
+export { default as deleteDatabase } from './database/deleteDatabase'
+export { default as deleteAllDatabases } from './database/deleteAllDatabases'
+export { default as closeAllConnections } from './database/closeAllConnections'
+export { default as getTableNames } from './database/getTableNames'
+export { default as deleteAllTables } from './database/deleteAllTables'
 
-import useDatabase from './useDatabase'
-import deleteTable from './database/deleteTable'
-import deleteDatabase from './database/deleteDatabase'
-import deleteAllDatabases from './database/deleteAllDatabases'
-import closeAllConnections from './database/closeAllConnections'
-
-export {
-  useDatabase,
-  deleteTable,
-  deleteDatabase,
-  deleteAllDatabases,
-  closeAllConnections
-}
-
-export * from './table'
+export * from './table' 
